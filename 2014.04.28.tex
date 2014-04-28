@@ -1,0 +1,126 @@
+\documentclass[12pt,a4paper,titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[top=3cm, bottom=3cm, left=2cm, right=2cm]{geometry}
+\usepackage{textcomp}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{fix-cm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{mdwlist}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{datetime}
+\usepackage[perpage,para,bottom,marginal]{footmisc}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage[cmtip,all]{xy}
+\newdateformat{dmny}{\monthname[\THEMONTH] \THEYEAR}
+\newdateformat{dyo}{\THEYEAR}
+\setlength{\headheight}{30pt}
+\pagestyle{fancy}
+
+\author{Nicolas Hafner}
+\lhead{Nicolas Hafner}
+\title{Analysis II}
+\chead{Analysis II}
+\rhead{Zürich, \dmny\today}
+\cfoot{\thepage\ / \pageref{LastPage}}
+\lfoot{\copyright \dyo\today TymoonNET/NexT}
+\date{\d_mny\today}
+
+\newcommand{\longsquiggly}{\xymatrix{{}\ar@{~>}[r]&{}}}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\renewcommand{\arg}{\operatorname{arg}}
+\renewcommand{\d}{\partial}
+\newcommand{\arsinh}{\operatorname{arsinh}}
+\newcommand{\arcosh}{\operatorname{arcosh}}
+\newcommand{\artanh}{\operatorname{artanh}}
+\newcommand{\setC}{\mathbb{C}}
+\newcommand{\setR}{\mathbb{R}}
+\newcommand{\setZ}{\mathbb{Z}}
+\newcommand{\setN}{\mathbb{Z}^{\geq0}}
+\newcommand{\Graph}{\operatorname{Graph}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\diam}{\operatorname{diam}}
+
+\newcount\colveccount
+\newcommand*\colvec[1]{
+  \global\colveccount#1
+  \begin{pmatrix}
+    \colvecnext
+  }
+  \def\colvecnext#1{
+    #1
+    \global\advance\colveccount-1
+    \ifnum\colveccount>0
+    \\
+    \expandafter\colvecnext
+    \else
+  \end{pmatrix}
+  \fi
+}
+
+\begin{document}	
+\begin{center}{\bfseries\Huge Analysis II - 2014.04.28}\end{center}
+\section*{Uneigentliche Integrale}
+Sei $f$ eine Funktion auf $X\subset\setR^n$. Jetzt: $X$ nicht kompakt oder $f$ nicht stetig. \\
+\\
+\textit{Annahme}: Für jede kompakte Teilmenge $K\subset X$ existiert $\int f \;d\vol$. \\
+\\
+\textit{Definition}: $\int_Xf \;d\vol := \lim\limits_K\int_Kf \;d\vol$ \\
+\textit{Genauer}: $\int_Xf \;d\vol := S$ falls $\forall\epsilon>0\exists K_0\subset X$ kompakt, sodass $\forall K\subset X$ kompakt: $K_0\subset K \Rightarrow \left|\int_Kf \;d\vol-S\right|<\epsilon$ falls das existiert. \emph{Uneigentliches Integral}. \\
+\\
+\textit{Fakt}: Ist $f$ stetig und sind die Werte $\int_K|f| \;d\vol$ nach oben beschränkt für alle $K$, dann existiert $\int_Xf \;d\vol$. Wie früher $\int_Kf \;d\vol=\underbrace{\infty}_{\mathclap{\text{uneigentlicher Grenzwert}}}$ wenn $\forall N\exists K_0$. $\forall K:K_0\subset K\Rightarrow \int_Kf \;d\vol>N$. \\
+Ist $f\geq 0$ überall, so existiert $\int_Xf \;d\vol$ oder es ist $\infty$ und alle Regeln gelten. \\
+\\
+\textit{Beispiel}: $\int\limits_{[1,\infty[\times[1,\infty[}\frac{1}{(x+y)^s} \;d\vol\colvec{2}{x}{y} \overset{\text{Fubini}}{=} \int_1^\infty(\int_1^\infty(x+y)^{-s} \;dy) \;dx \overset{s>1}{=} \int_1^\infty(\left.\frac{(x+y)^{1-s}}{1-s}\right|_{y=1}^{y=\infty}) \;dx$ \\
+$=\int_1^\infty(\lim\limits_{y\to\infty}\frac{(x+y)^{1-s}}{1-s}-\frac{(x+1)^{1-s}}{1-s}) \;dx = \frac{1}{s-1} \int_1^\infty(x+1)^{1-s} \;dx = \left\{\begin{array}{ll}
+    \infty & \quad\text{falls}\; s-1\leq 1 \\
+    \text{sonst..} & \quad\text{falls} \;s>2
+  \end{array}\right.$ \\
+sonst: $=\frac{1}{s-1}\left.(\frac{(x+1)^{2-s}}{2-s})\right|_{x=1}^{x=\infty}=\frac{1}{s-1}(-\frac{2^{2-s}}{2-s}) = \left\{\begin{array}{ll}
+    \infty & \quad\text{falls}\; s\leq 2 \\
+    \frac{2^{2-s}}{(s-1)(s-2)} & \quad\text{falls}\; s>2
+  \end{array}\right.$ \\
+\\
+\\
+\textit{Beispiel}: $I:=\int_{-\infty}^\infty e^{-x^2} \;dx = ?$ \\
+\textit{Lösung}: $I^2=(\int\limits_{]-\infty,\infty[}e^{-x^2} \;dx)(\int\limits_{]-\infty,\infty[}e^{-y^2} \;dy) \overset{\text{Fubini}}{=} \int_{\setR^2}e^{-x^2}e^{-y^2} \;d\vol_2\colvec{2}{x}{y}=\left|\substack{e^{-x^2}e^{-y^2}=e^{-(x^2+y^2)} \\ x=r\cos\varphi \\ y=r\sin\varphi}\right|$ \\
+$=\int\int\limits_{\mathclap{(r,\varphi)\in\setR^{leq 0}\times[0,2\pi]}}e^{-r^2}r \;drd\varphi = \underbrace{\int_0^\infty e^{-r^2}r \;dr}_{\left.\frac{e^{-r^2}}{-2}\right|_0^\infty = 0-(-\frac{1}{2}) = \frac{1}{2}} \cdot\underbrace{\int_0^{2\pi}d\varphi}_{2\pi} = \pi \implies I=\sqrt{\pi}$
+
+\section*{Kurvenintegral}
+\textit{Definition}: Sei $\gamma:[a,b]\to\setR^n$ eine $C^1$-Funktion, die ausserhalb endlich vieler Punkte injektiv ist. Dann heisst $C:=\operatorname{image}(\gamma)$ eine (parametrisierte) $C^1$-Kurve in $\setR^n$, oder Weg von $\gamma(a)$ nach $\gamma(b)$, oder Weg mit Anfangspunkt $\gamma(a)$ und Endpunkt $\gamma(b)$. \\
+\\
+\textit{Vorsicht}: $\vol_n(C)=0$ falls $n>1$. \\
+\\
+\textit{Fakt}: $[t_0,t_0+\Delta t]$ wird von $\gamma$ auf ein Kurvenstück der Länge $|\gamma'(t_0)|\cdot\Delta t+o(\Delta t)$ abgebildet. \\
+\newpage
+\textit{Definition}: Sei $f$ eine Funktion auf $C$. Das Integral von $f$ über $C$, falls es existiert (z.B. wenn $f$ stetig ist), ist $$\int_Cf \;d\vol_1:=\int_a^bf(\gamma(t))\cdot|\gamma'(t)| \;dt$$
+\\
+\textit{Fakt}: Das ist invariant unter Umparametrisierung. \\
+\textit{d.h.}: $\forall\psi:[\widetilde{a},\widetilde{b}]\to[a,b]$ bijektiv, $C^1$ gilt: $\int_{\widetilde{a}}^{\widetilde{b}}f(\gamma(\psi(\widetilde{t})))\cdot|(\gamma\circ\psi)'(\widetilde{t})| \;d\widetilde{t}$ \\
+$= \int_{\widetilde{a}}^{\widetilde{b}}f(\gamma(\psi(\widetilde{t})))\cdot|\gamma'(\psi(\widetilde{t}))|\cdot|\psi'(\widetilde{t})| \;d\widetilde{t} = \text{obige Definition}$ \\
+\\
+\textit{Spezialfall}: Die Kurvenlänge von $C$ ist $\vol_1(C):=\int_C1 \;d\vol_1 = \int_a^b|\gamma'(t)| \;dt$ \\
+\\
+\textit{$\text{Spezial}^2$-Fall}: $C=\Graph(g)$ für $C^1$-Funktion $g:[a,b]\to\setR^n$. \\
+Wähle $\gamma:[a,b]\to C\subset\setR^{n1},\; t\mapsto\colvec{2}{t}{g(t)} \Rightarrow \gamma'(t)=\colvec{2}{1}{g'(t)} $ \\
+$\Rightarrow |\gamma'(t)|^2=1^1+|g'(t)|^2 \Rightarrow |\gamma'(t)|=\sqrt{1+|g'(t)|^2}$ \\
+$\Rightarrow \vol_1(C)=\int_a^b\sqrt{1+|g'(t)|^2} \;dt$ \\
+\\
+\textit{Beispiel}: $C:y=x^2$ für $x\in[-1,1] \Rightarrow \vol_1(C)=\int_{-1}^1\sqrt{1+4t^2} \;dt = \left|\substack{\sinh z=2t \\ \cosh z\;dz = 2 \;dt \\ t=\pm 1\iff  \\ 2t=\pm 2\iff z=\pm\arsinh(2)}\right|$ \\
+$=\int_{-\alpha}^\alpha\cosh z\cdot\frac{\cosh z}{2} \;dz =..=\sqrt{5}+\frac{1}{2}\log(2+\sqrt{5})$
+\end{document}
