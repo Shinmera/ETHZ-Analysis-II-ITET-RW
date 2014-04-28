@@ -1,5 +1,5 @@
-ETHZ-Analysis-II-ITET-RW
-========================
+ETHZ Analysis II / ITET-RW
+==========================
 
 These are LaTeX transcripts of the EHTZ Analysis II lectures for ITET and RW/CSE of Spring 2014. Only the blackboard is documented here, audio files accompanying the lecture can be found [here](http://www.math.ethz.ch/education/bachelor/lectures/fs2014/other/a2_itet)
 
