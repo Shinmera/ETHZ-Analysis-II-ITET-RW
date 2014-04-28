@@ -1,0 +1,122 @@
+\documentclass[12pt,a4paper,titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[top=3cm, bottom=3cm, left=2cm, right=2cm]{geometry}
+\usepackage{textcomp}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{fix-cm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{mdwlist}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{datetime}
+\usepackage[perpage,para,bottom,marginal]{footmisc}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage[cmtip,all]{xy}
+\newdateformat{dmny}{\monthname[\THEMONTH] \THEYEAR}
+\newdateformat{dyo}{\THEYEAR}
+\setlength{\headheight}{30pt}
+\pagestyle{fancy}
+
+\author{Nicolas Hafner}
+\lhead{Nicolas Hafner}
+\title{Analysis II}
+\chead{Analysis II}
+\rhead{Zürich, \dmny\today}
+\cfoot{\thepage\ / \pageref{LastPage}}
+\lfoot{\copyright \dyo\today TymoonNET/NexT}
+\date{\d_mny\today}
+
+\newcommand{\longsquiggly}{\xymatrix{{}\ar@{~>}[r]&{}}}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\renewcommand{\arg}{\operatorname{arg}}
+\renewcommand{\d}{\partial}
+\newcommand{\arsinh}{\operatorname{arsinh}}
+\newcommand{\arcosh}{\operatorname{arcosh}}
+\newcommand{\artanh}{\operatorname{artanh}}
+\newcommand{\setC}{\mathbb{C}}
+\newcommand{\setR}{\mathbb{R}}
+\newcommand{\setZ}{\mathbb{Z}}
+\newcommand{\setN}{\mathbb{Z}^{\geq0}}
+\newcommand{\Graph}{\operatorname{Graph}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\diam}{\operatorname{diam}}
+
+\newcount\colveccount
+\newcommand*\colvec[1]{
+  \global\colveccount#1
+  \begin{pmatrix}
+    \colvecnext
+  }
+  \def\colvecnext#1{
+    #1
+    \global\advance\colveccount-1
+    \ifnum\colveccount>0
+    \\
+    \expandafter\colvecnext
+    \else
+  \end{pmatrix}
+  \fi
+}
+
+\begin{document}	
+\begin{center}{\bfseries\Huge Analysis II - 2014.04.07}\end{center}
+\section*{Integral mehrerer Variablen}
+\textit{Fakt}: Jede $\overbrace{\text{hinreichend gutartige}}^{\mathclap{\text{z.B. jede beschränkte offene oder abgeschlossene Teilmenge.}}}$ Teilmenge $X\subset\setR^n$ hat ein Volumen $\vol_n(X)\in\setN\cup\{\infty\}$. $n=1$: Länge $n=2$: Flächeninhalt. \\
+\\
+\textit{Eigenschaften}\begin{itemize}
+\item invariant unter Translationen, Drehungen, Spiegelungen.
+\item $\vol_{m+n}(X\times Y)=\vol_m(X)\cdot\vol_n(Y)$ für $X\subset\setR^m,\; Y\subset\setR^n$
+\item $\vol_n(X\cup Y)=\vol_n(X)+\vol_n(Y)-\vol_n(X\cap Y)$
+\item $\vol_n(X)=0$ für jedes $X$ der Dimension $< n$.
+\item $\vol_n(X)\leq\vol_n(Y)$ für alle $X\subset Y$.
+\item Zu pt. 3\&4: Insbesondere gilt $\vol_n(X\cup Y)=\vol_n(X)+\vol_n(Y)$ wenn $X\cap Y$ Dimension $<n$ hat.
+\end{itemize}
+vorläufig: $\vol:=\vol_n$
+\section*{Riemann Integral}
+\textit{Zerlegung}: $Z$ von $X\subset\setR^n$ in endlich viele: $X=\bigcup\limits_{i=1}^r X_i$ so dass $\vol(X_i\cap X_j)=0$ für alle $i\neq j$ mit $x_i\in X_i$ Basispunkt. \\
+\\
+Durchmesser von $X_i$: $\diam(X_i):=\sup(|x-y|:x,y\in X_i)$\\
+\\
+Feinheit von $Z$ ist $\delta(Z):=\max\limits_{i=1..r}\{\diam(X_i)\}$ \\
+\\
+$f$ Funktion auf $X: S_f(Z):=\sum\limits_{i=1}^rf(x_i)\vol_n(X_i)$\\
+\\
+Riemannsumme: $\int_X f(x)\; d\vol_n(x):=\lim\limits_{\mathclap{\substack{\text{Z Zerlegung von X}\\\delta(Z)\to 0}}}S_f(Z)$ \quad falls der Grenzwert existiert. \\
+\\
+\textit{Satz}: Jede stetige Funktion auf einer kompakten Teilmenge ist Riemann-integrierbar. \\
+\\
+\textit{Spezialfall}: $X=[a,b]\subset\setR \longsquiggly \int\limits_Xf(x) \;d\vol_1(x)=\int\limits_a^bf(x) \;dx$ \\
+\\
+\textit{Alternative Bezeichnungen}: $d\mu(x),\;\mu(x),\;\overbrace{dF}^{\mathclap{\dim 2}},\;\overbrace{dV}^{\mathclap{\dim 3}}$ 
+\section*{Eigenschaften}
+$\int_X1 \;d\vol_n=\vol_n(X)$ \\
+$\int_{X\cup Y}f \;d\vol_n=\int_xf \;d\vol_n+\int_Yf \;d\vol_n$ falls $X\cap Y$ Dimension $<n$ hat. \\
+$\int_X(\lambda_1f_1+\lambda_2f_2) \;d\vol_n=\lambda_i\int_Xf_1 \;d\vol_n+\lambda\int_Xf_2 \;d\vol_n$ \\
+$\int_Xf \;d\vol_n\leq \int_Xg \;d\vol_n$ falls überall $f\leq g$. \\
+$\left|\int_Xf \;d\vol_n\right|\leq \int_X\left|f\right| \;d\vol_n$ \\
+\\
+\textit{Satz (Fubini)}: Sei $X\subset\setR^n$ kompakt, seine $\varphi,\psi:X\to\setR$ stückweise stetig mit $\forall x:\varphi(x)\leq\psi(x)$ \\
+$Z:=\left\{\colvec{2}{x}{y}\in\setR^{n+1}\mid\substack{x\in X,\; y\in\setR \\ \varphi(x)\leq y\leq \psi(x)}\right\}$ Sei $f$ stetig auf $Z$, dann
+$\int\limits_Zf \;d\vol_{n+1}=\int\limits_X\left(\int\limits_{\varphi(x)}^{\psi(x)}f\colvec{2}{x}{y} \;dy\right) \;d\vol_n(x)$ \\
+\\
+\textit{Speziell}: $\vol(Z)=\int_X(\psi(x)-\varphi(x)) \;d\vol_n(x)$ \\
+\\
+\textit{Beispiel}: $B:=\left\{\colvec{2}{x}{y}\in\setR^2\mid\substack{0\leq x\leq 4 \\ -\sqrt{x}\leq y\leq\sqrt{x}}\right\}=\left\{\colvec{2}{x}{y}\in\setR^2\mid\substack{-2\leq y\leq 2 \\ y^2\leq x\leq 4}\right\}$ \\
+$\int_Bf\colvec{2}{x}{y} \;d\vol\colvec{2}{x}{y} = \int_0^4(\int_{-\sqrt{x}}^{\sqrt{x}}f\colvec{2}{x}{y} \;dy) \;dx = \int_{-2}^2(\int_{y^2}^4f\colvec{2}{x}{y} \;dx) \;dy$
+
+\end{document}

@@ -1,0 +1,151 @@
+\documentclass[12pt,a4paper,titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[top=3cm, bottom=3cm, left=2cm, right=2cm]{geometry}
+\usepackage{textcomp}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{fix-cm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{mdwlist}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{datetime}
+\usepackage[perpage,para,bottom,marginal]{footmisc}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage[cmtip,all]{xy}
+\newdateformat{dmny}{\monthname[\THEMONTH] \THEYEAR}
+\newdateformat{dyo}{\THEYEAR}
+\setlength{\headheight}{30pt}
+\pagestyle{fancy}
+
+\author{Nicolas Hafner}
+\lhead{Nicolas Hafner}
+\title{Analysis II}
+\chead{Analysis II}
+\rhead{Zürich, \dmny\today}
+\cfoot{\thepage\ / \pageref{LastPage}}
+\lfoot{\copyright \dyo\today TymoonNET/NexT}
+\date{\d_mny\today}
+
+\newcommand{\longsquiggly}{\xymatrix{{}\ar@{~>}[r]&{}}}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\renewcommand{\arg}{\operatorname{arg}}
+\renewcommand{\d}{\partial}
+\newcommand{\arsinh}{\operatorname{arsinh}}
+\newcommand{\arcosh}{\operatorname{arcosh}}
+\newcommand{\artanh}{\operatorname{artanh}}
+\newcommand{\setC}{\mathbb{C}}
+\newcommand{\setR}{\mathbb{R}}
+\newcommand{\setZ}{\mathbb{Z}}
+\newcommand{\setN}{\mathbb{Z}^{\geq0}}
+\newcommand{\Graph}{\operatorname{Graph}}
+
+\begin{document}	
+\begin{center}{\bfseries\Huge Analysis II - 2014.03.20}\end{center}
+\textit{Taylor}: $f(x,y)=\sum\limits_{\substack{i,j\geq 0 \\ i+j\leq k}}\frac{\d^{i+j}f}{\d y^jx^i}(x_0,y_0)\frac{(x-x_0)^i}{i!}\frac{(y-y_o)^j}{j!}+o(|(x-x_0,y-y_0)|^{k})$ \\
+$e^x=\sum\limits_{i\geq 0}\frac{x^i}{i!} \Rightarrow e^{x+y}=e^{x-x_0}e^{y-y_0}e^{x_0+y_0} \Rightarrow e^{x+y}=e^{x_0+y_0}\sum\limits_{\substack{i,j\geq 0 \\ i+j\leq k}}\frac{(x-x_0)^i}{i!}\frac{(y-y_0)^j}{j!}+o(|(x-x_0,y-y_0)|^{k})$ \\
+\\
+\textit{Bemerkung}: Einsetzen bekannter Entwicklungen! \\
+\\
+\textit{Beispiel}: $(\cos x)\log(1+x+y)$ Taylor Approx bei $(x,y)=(0,0)$ \\
+$\Rightarrow (1-\frac{x^2}{2}+\frac{x^4}{24}+O(x^6))((x+y)-\frac{(x+y)^2}{2}+\frac{(x+y)^3}{3}+O((x+y)^4))$ \\
+$= (x+y)-\frac{(x+y)^2}{2}+\frac{(x+y)^3}{3}-\frac{x^2}{2}((x+y)+\text{höhere Ordnung})+O(|(x,y)|^4)$ \\
+$= (x+y)-\frac{(x+y)^2}{2}+(x+y)(\frac{(x+y)^2}{3}-\frac{x^2}{2})+O(|(x,y)|^4)$ \\
+$= (x+y)-\frac{x^2+2xy+y^2}{2}+\frac{(x+y)(-x^2+4xy+2y^2)}{6}+O(|(x,y)|^4)$ \\
+\\
+\textit{Jetzt}: $x=x_1..x_n \quad f(x)$: Taylor Approximation vom Grad $2$ im Punkt $\xi=(\xi_1..\xi_n)$: \\
+$f(x)=f(\xi)+\sum_{i=1}^n\frac{\d f}{\d x_i}(\xi)(x_i-\xi_i)+\sum_{i,j=1}^n\frac{\d^2 f}{\d x_i\d x_j}(\xi)\frac{(x_i-\xi_i)(x_j-\xi_k)}{2}+o(|x-\xi|^2)$ \\
+\underline{$n=2$}: $\frac{\d^2 f}{\d x_1\d x_1}(\xi)\frac{(x_1-\xi_1)^2}{2}+\frac{\d^2f}{\d x_1\d x_2}(\xi)\frac{(x_1-\xi_1)(x_2-\xi_2)}{2}+\frac{\d^2 f}{\d x_2\d x_1}(\xi)\frac{(x_2-\xi_2)(x_1-\xi_1)}{2}+\frac{\d^2f}{\d x_2\d x_2}(\xi)\frac{(x_2-\xi_2)^2}{2}$ \\
+$=\frac{\d^2 f}{\d x_1^2}(\xi)\frac{(x_1-\xi_1)^2}{2}+\frac{\d^2 f}{\d x_1\d x_2}(\xi)(x_1-\xi_1)(x_2-\xi_2)+\frac{\d^2 f}{\d x_2^2}(\xi)\frac{(x_2-\xi_2)^2}{2}$ \\
+\\
+\textit{Definition}: Die \emph{Hesse-Matrix} von $f$ ist die \emph{zweite Ableitung}
+$\nabla^2f=\begin{pmatrix}
+  \frac{\d^2f}{\d x_1\d x_1} & \hdots & \frac{\d^2f}{\d x_1\d x_n} \\
+  \vdots & \ddots & \vdots \\
+  \frac{\d^2f}{\d x_n\d x_1} & \hdots & \frac{\d^2f}{\d x_n\d x_n} \\
+\end{pmatrix}$
+Diese ist \emph{symmetrisch}, falls $f$ zwei mal stetig diff'bar ist. $\Rightarrow$ Taylor Approx: \\
+$f(x)=f(\xi)+\nabla f(\xi)(x-\xi)^T+\frac{1}{2}(x-\xi)\nabla^2f(\xi)(x-\xi)^T+o(|x-\xi|^2) = \text{beste quad. Approx.}$ \\
+\\
+\textit{Definition}: $\xi$ heisst \emph{kritischer Punkt} von $f$ falls $\nabla f(\xi)=0$.\\
+\\
+\textit{Fakt}: Wenn $f$ in $\xi$ ein lokales Extremum hat, so ist $\xi$ ein kritischer Punkt von $f$. \\
+\\
+\textit{Geometrische Interpretation}: $\xi$ ist kritischer Punkt $\iff$ Tangentialhyperebene horizontal. \\
+\\
+\textit{Definition}: Ein kritischer Punkt $\xi$ von $f$ mit $\det\nabla^2f(\xi)\neq 0$ heisst \emph{nicht ausgeartet}. \\
+\\
+\textit{Definition}: Eine reelle symmetrische $n\operatorname{x}n$ Matrix $A$ heisst \\
+$\begin{array}{l c r}
+  \text{positiv definit} &\iff& \forall x\in\setR^n_{\setminus\{0\}}:xAx^T>0 \\
+  \text{negativ definit} &\iff& \forall x\in\setR^n_{\setminus\{0\}}:xAx^T<0 \\
+  \text{positiv semidefinit} &\iff& \forall x\in\setR^n_{\setminus\{0\}}:xAx^T\geq 0 \\
+  \text{negativ semidefinit} &\iff& \forall x\in\setR^n_{\setminus\{0\}}:xAx^T\leq 0 \\
+  \text{indefinit} &\iff& \text{sonst}
+\end{array}$
+\newpage
+\textit{Lineare Algebra}: Alle Eigenwerte von $a$ sind reell und \\
+$\begin{array}{l c r}
+  \text{positiv definit} &\iff& \text{alle EW}>0 \\
+  \text{negativ definit} &\iff& \text{alle EW}<0 \\
+  \text{positiv semidefinit} &\iff& \text{alle EW}\geq0 \\
+  \text{negativ semidefinit} &\iff& \text{alle EW}\leq0 \\
+  \text{indefinit} &\iff& \text{sonst}
+\end{array}$ \\
+\\
+\textit{Fakt}: Ist $\xi$ nicht ausgeartet,
+\begin{itemize}
+\item mit $\nabla^2f(\xi)$ \emph{positiv definit}, so hat $f$ in $\xi$ ein isoliertes lokales Minimum.
+\item mit $\nabla^2f(\xi)$ \emph{negativ definit}, so hat $f$ in $\xi$ ein isoliertes lokales Maximum.
+\item mit $\nabla^2f(\xi)$ \emph{indefinit}, so hat $f$ in $\xi$ einen Sattelpunkt.
+\end{itemize}
+\textit{Beispiel}: $f(x,y)\begin{array}{l l}
+  =x^2+y^4 & \text{isoliertes lokales Minimum} \\
+  =x^2-y^4 & \text{Sattelpunkt} \\
+  =x^2+y^3 & \text{?}
+\end{array}\longsquiggly (0,0)$ angeordneter kritischer Punkt. \\
+$\nabla^2f(0,0)=\begin{pmatrix}2&0\\0&0\end{pmatrix}$ semipositiv. \\
+\\
+\textit{Beispiel}: Untersuche die kritischen Punkte von $f(x,y):=\cos(x+2y)+\cos(2x+3y)$ \\
+$\Rightarrow\left\{\begin{array}{l}
+  f_x=-\sin(x+2y)-2\sin(2x+3y)=0 \\
+  f_y=-2\sin(x+2y)-3\sin(2x+3y)=0
+\end{array}\right\}\iff\left\{\begin{array}{l}
+  \sin(x+2y)=0 \\
+  \sin(2x+3y)=0
+\end{array}\right\}$ \\
+$\iff\left\{\begin{array}{l}
+  x+2y\in\setZ\pi \\
+  2x+3y\in\setZ\pi
+\end{array}\right\}\iff\left\{\begin{array}{l}
+  x\in\setZ\pi \\
+  y\in\setZ\pi
+\end{array}\right\}$ \\
+Da $f$ in $x$ und $y$ periodisch ist mit Periode $2\pi$, genügt: \\
+$\begin{array}{l l l l}
+  (x,y)=(0,0): & \nabla^2f=\begin{pmatrix}-5&-8 \\ -8&-13\end{pmatrix} & & \text{neg. definit} \Rightarrow \text{lokales Max.}\\
+  (x,y)=(0,\pi): & \nabla^2f=\begin{pmatrix}3&4 \\ 4&5\end{pmatrix} & \left|\begin{matrix}3-\lambda&4 \\ 4&5-\lambda\end{matrix}\right| = \lambda^2-8\lambda-1 & \text{indefinit} \Rightarrow \text{Sattelpunkt}\\
+  (x,y)=(\pi,0): & \nabla^2f=\begin{pmatrix}-3&-4 \\ -4&-5\end{pmatrix} & & \text{indefinit} \Rightarrow \text{Sattelpunkt}\\
+  (x,y)=(\pi,\pi): & \nabla^2f=\begin{pmatrix}5&8 \\ 8&13\end{pmatrix} & \left|\begin{matrix}5-\lambda&8 \\ 8&13-\lambda\end{matrix}\right|=\lambda^2-18\lambda+1 & \text{pos. definit} \Rightarrow \text{lokales Min.}  
+\end{array}$ \\ 
+\\
+$\begin{array}{l}
+  f_{xx}=-\cos(x+2y)-4\cos(2x+3y) \\
+  f_{xy}=-2\cos(x+2y)-6\cos(2x+3y) \\
+  f_{yx}=-2\cos(x+2y)-6\cos(2x+3y) \\
+  f_{yy}=-4\cos(x+2y)-9\cos(2x+3y)
+\end{array}$
+\end{document}

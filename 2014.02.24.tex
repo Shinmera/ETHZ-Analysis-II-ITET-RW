@@ -1,0 +1,91 @@
+\documentclass[12pt,a4paper,titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[top=3cm, bottom=3cm, left=2cm, right=2cm]{geometry}
+\usepackage{textcomp}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{fix-cm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{mdwlist}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{datetime}
+\usepackage[perpage,para,bottom,marginal]{footmisc}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage[cmtip,all]{xy}
+\newdateformat{dmny}{\monthname[\THEMONTH] \THEYEAR}
+\newdateformat{dyo}{\THEYEAR}
+\setlength{\headheight}{30pt}
+\pagestyle{fancy}
+
+\author{Nicolas Hafner}
+\lhead{Nicolas Hafner}
+\title{Analysis II}
+\chead{Analysis II}
+\rhead{Zürich, \dmny\today}
+\cfoot{\thepage\ / \pageref{LastPage}}
+\lfoot{\copyright \dyo\today TymoonNET/NexT}
+\date{\d_mny\today}
+
+\newcommand{\longsquiggly}{\xymatrix{{}\ar@{~>}[r]&{}}}
+\newcommand{\arsinh}{\operatorname{arsinh}}
+
+\begin{document}	
+\begin{center}{\bfseries\Huge Analysis II - 2014.02.24}\end{center}
+\textit{Erinnerung}: Separierbare DGL: $\frac{dy}{dx}=f(x)g(y) \longsquiggly \int\frac{dy}{g(y)}=\int f(x)dx$ \\
+Für jedes $y_0$ mit $g(y_0)=0$ $y:=y_0$ eine Lösung.\\
+\\
+\textit{Spezialfall}: $\frac{dy}{dx}=f(\frac{y}{x})$ Diese DGL ist invariant unter $(x,y)\mapsto(tx,ty)$, ``homogen''. \\
+Substitution: $u=\frac{y}{x} \iff y=ux \Rightarrow u+\frac{du}{dx}x=\frac{dy}{dx}=f(u) \longsquiggly \frac{du}{dx}x=f(u)-u$ \\
+Löse: $\int\frac{du}{f(u)-u}=\int\frac{dx}{x}\iff H(u)=G(x)$ \\
+Lösung: $u=H^{-1}(\log|x|+c) \Rightarrow y=H^{-1}(log|x|+c)x$ \\
+Beachte: $\exp(\log|x|+c)=e^c|x|$ daher, wenn $H(u)=\log|I(u)| \Rightarrow I(u)=\pm e^cx=c'x$ \\
+\\
+\textit{Beispiel}: $\frac{dy}{dx}=\frac{y+\sqrt{x^2+y^2}}{x} \Rightarrow y=ux \longsquiggly u+\frac{du}{dx}x=\frac{ux+\sqrt{x^2+u^2x^2}}{x}=u+\sqrt{1+u^2}$ \\
+$\longsquiggly \int\frac{du}{\sqrt{1+u^2}}=\int\frac{dx}{x} \Rightarrow \arsinh(u)=\log|x|+c=\log(c'x) \Rightarrow u=\sinh(\log(c'x))$ \\
+$\Rightarrow u=\frac{c'x-\frac{1}{c'x}}{2}=\frac{c'^2x^2-1}{2cx} \Rightarrow y=\frac{c'^2x^2-1}{2c'}$ für $c'\neq0$ \\
+Probe: $\frac{dy}{dx}=c'x=...$ \\
+\\
+\textit{Beispiel}: $\frac{dy}{dx}=\frac{x+qy}{qx-y}$ für $q$ konstant. $\Rightarrow y=ux \longsquiggly u+\frac{du}{dx}x=\frac{1+qu}{q-u} \Rightarrow \frac{du}{dx}x=\frac{1+qu}{q-u}-u=\frac{1+u^2}{q-u}$ \\
+$\longsquiggly \int\frac{q-u}{1+u^2}du=\int\frac{dx}{x} \Rightarrow q\arctan(u)-\frac{1}{2}\log(1+u^2)=\log(cx)$ nicht weiter Lösbar, anders: \\
+$q\arctan(\frac{y}{x})=\log\left(cx\sqrt{1+\left(\frac{y}{x}\right)^2}\right)=\log\left(c\sqrt{x^2+y^2}\right)$ \\
+Polarkoordinaten: $x=r\cos\varphi,\; y=r\sin\varphi \iff r=\sqrt{x^2+y^2},\; \varphi=\arctan\frac{y}{x}$ \\
+$\Rightarrow q(\varphi-k\pi)=\log(cr) \Rightarrow e^{q\varphi}e^{qk\pi}=cr \iff r=c'e^{q\varphi}$
+
+\section*{Lineare Differentialgleichungen}
+\textit{Definition}: Für Funktionen $a_0(x)..a_n(x)$ auf einem Intervall $I\subset\mathbb{R}$ heisst $L:=a_0(x)\frac{d^n}{dx^n}+..+a_{n-1}(x)\frac{d}{dx}+a_n(x)$ ein linearer \emph{Differentialoperator}, welcher jeder $c^n$-Funktion $y(x)$ die Funktion
+$$x\mapsto Ly(x):= a_0(x)\frac{dy}{dx^n}+..+a_{n-1}(x)\frac{dy}{dx}+a_n(x)y(x)$$
+zuordnet.\\
+\\
+\textit{Fakt}: $\lambda_1,\lambda_2$ konstant $\Rightarrow L(\lambda_1y_1+\lambda_2y_2)=\lambda_1Ly_1+\lambda_2Ly_2$ \\
+\\
+\textit{Definition}: Eine DGL der Form $Ly(x)=b(x)$ heisst \emph{(inhomogen) linear}, $Ly(x)=0$ heisst \emph{homogen linear}. \\
+\\
+\textit{Fakt}: Die Lösungen der homogenen Gleichung $Ly=0$ bilden einen Vektorraum. Sind $y_1..y_n$ eine Basis, dann ist jede Lösung der Gestalt $\lambda_1y_1+..\lambda_ny_n$ für $\lambda_1..\lambda_n$ konstant. Die $y_i$ sind die \emph{Fundamentallösungen} und die $\sum\lambda_iy_i$ ist die \emph{allgemeine Lösung}. \\
+\\
+\textit{Satz}: Ist $a_0(x)=1$ und alle $a_i(x)$ stetig, dann ist die Dimension des Lösungsraums $Ly=0$ auf $I$ gleich $n$. Genauer: zu beiliebigen Anfangswerten existiert eine eindeutige Lösung auf $I$. \\
+\\
+\textit{Fakt}: Ist $y_p$ eine \emph{partikuläre} Lösung von $Ly_p=b$, dann ist die alggemeine Lösung der Gleichung gleich $y_p+\lambda_1y_1+..+\lambda_ny_n$ für konstante $\lambda_i$. \\
+\\
+\textit{Fakt}: Gilt $Ly_1=b_1...Ly_r=b_r$ so ist $L(y_1+..+y_r)=b_1+..+b_r$.
+
+\section*{Spezialfall Ordnung 1}
+\textit{Homogener Fall}: $y'+a(x)y=0$ separierbar $\longsquiggly \int\frac{dy}{y}=-\int a(x)dx \Rightarrow \log|y|= ..$ \\
+Fundamentallösung: $y(x)=e^{-\int a(x)dx} \iff$ allg. Lösung: $y(x)=\lambda e^{-\int a(x)dx}$ für $\lambda$ konstant.  \\
+\\
+\textit{Inhomogener Fall}: $y'+a(x)y=b(x)$\\
+Ansatz: ``Variation der Konstanten'' $\implies y(x)=\lambda(x)y_h(x) \longsquiggly \frac{d\lambda}{dx}=\frac{b(x)}{y_h(x)}$ \\
+$\Rightarrow $ Partikuläre Lösung: $y_p(x)=y_h(x)\int\frac{b(x)dx}{y_h(x)}$
+\end{document}

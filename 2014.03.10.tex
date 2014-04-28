@@ -1,0 +1,135 @@
+\documentclass[12pt,a4paper,titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[top=3cm, bottom=3cm, left=2cm, right=2cm]{geometry}
+\usepackage{textcomp}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{fix-cm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{mdwlist}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{datetime}
+\usepackage[perpage,para,bottom,marginal]{footmisc}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage[cmtip,all]{xy}
+\newdateformat{dmny}{\monthname[\THEMONTH] \THEYEAR}
+\newdateformat{dyo}{\THEYEAR}
+\setlength{\headheight}{30pt}
+\pagestyle{fancy}
+
+\author{Nicolas Hafner}
+\lhead{Nicolas Hafner}
+\title{Analysis II}
+\chead{Analysis II}
+\rhead{Zürich, \dmny\today}
+\cfoot{\thepage\ / \pageref{LastPage}}
+\lfoot{\copyright \dyo\today TymoonNET/NexT}
+\date{\d_mny\today}
+
+\newcommand{\longsquiggly}{\xymatrix{{}\ar@{~>}[r]&{}}}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\renewcommand{\arg}{\operatorname{arg}}
+\renewcommand{\d}{\partial}
+\newcommand{\arsinh}{\operatorname{arsinh}}
+\newcommand{\arcosh}{\operatorname{arcosh}}
+\newcommand{\artanh}{\operatorname{artanh}}
+\newcommand{\setC}{\mathbb{C}}
+\newcommand{\setR}{\mathbb{R}}
+\newcommand{\setZ}{\mathbb{Z}}
+\newcommand{\setN}{\mathbb{Z}^{\geq0}}
+\newcommand{\Graph}{\operatorname{Graph}}
+
+\begin{document}	
+\begin{center}{\bfseries\Huge Analysis II - 2014.03.10}\end{center}
+\section*{Differentialrechnung mehrerer Variablen}
+\textit{Beispiel}: $f(x,y)=x^2\cos y \quad$ Mit $x$ fest $\Rightarrow \frac{\d f}{\d y}=-x^2\cos y\quad$ Mit $y$ fest $\Rightarrow \frac{\d f}{\d x}=2x\cos y$ \\
+\emph{partielle} Ableitung. \\
+\\
+\textit{Def}: Sei $U\subset\setR^n$ offen und $f:U\to\setR$. $f$ heisst \emph{(total) differenzierbar} in $\xi\in U$, falls
+$$f(x)=f(\xi)+(\sum_{i=1}^n a_i(x_i-\xi_i))+o(|x-\xi|)=f(\xi)+\langle\nabla f(\xi),x-\xi\rangle+o(|x-\xi|)$$
+für $x\to\xi$. \textit{Fakt}: Die $a_i$ sind dann eindeutig bestimmt. \\
+\\
+\textit{Fakt}: diff'bar $\implies$ stetig. \\
+\\
+\textit{Def}: $(\operatorname{grad} f)(\xi):=(\nabla f)(\xi):=(a_1..a_n)$ heisst \emph{Gradient}, \emph{``Nabla''} $f$ oder \emph{erste Ableitung von $f$} in $\xi$. Ist $f$ in jedem Punkt von $U$ diff'bar, so ist $\nabla f$ eine Funktion $U\to\setR^n$. \\
+\\
+\textit{Geometrische Interpretation}: $\operatorname{Graph}(x\mapsto f(\xi)+\sum_{i=1}^n a_i(x_i-\xi_i)) = $ Tangentialhyperebene an $\Graph(f)$ in $(\xi,f(\xi))$. \\
+\\
+Sei $e\in\setR^n$ ein Einheitsvektor, dann heisst $D_ef(\xi)=\frac{d}{dt}f(\xi+te)\mid_{t=0}$ die \emph{Richtungsableitung} von $f$ in Richtung $e$ im Punkt $\xi$. Ist $f$ total diff'bar in $\xi$, dann gilt:
+$$f(\xi+te)=f(\xi)+\langle\nabla f(\xi), te\rangle+o(|te|) = f(\xi)+\langle\nabla f(\xi),e\rangle t+o(t)$$
+für $t\to 0$. Also existiert die Richtungsableitung und ist $D_ef(\xi)=\langle\nabla f(\xi), e\rangle$. \\
+\\
+\textit{Geometrische Interpretation} $\nabla f(\xi)$ gibt die Richtung des steilsten Anstiegs von $f$ an. \\
+\\
+\textit{Spezialfall}: $e=(0,..,0,1,0,..) \longsquiggly f(\xi+te)=f(\xi_1,..,\xi_{i-1},\xi_i+t,\xi_{i+1},...\xi_n)$ \\
+$\Rightarrow D_{e_i}f(\xi)=$ Ableitung von $f\mid_{\xi_j}$ für alle $j\neq i$ $\quad =:\frac{\d f}{\d x_i}(\xi)$ \\
+\emph{partielle Ableitung} von $f$ bezüglich $x_i$. \\
+Für $\nabla f(\xi)=(a_1..a_n)$ ist $\langle\nabla f(\xi),e_i\rangle=a_i$. Also gilt $\nabla f=(\frac{\d f}{\d x},..,\frac{\d f}{\d x_n})$ \\
+\\
+\textit{Beispiel}: Die Funktion $\setR^2\to\setR\quad (x,y)\mapsto\left\{\begin{array}{c l}
+    \frac{xy}{x^2+y^2} & \quad \text{für}\;(x,y)\neq(0,0) \\
+    0 & \quad\text{für}\;(x,y)=(0,0) 
+  \end{array}\right.$ \\
+ist differenzierbar ausserhalb $(0,0)$. \\
+$\frac{\d f}{\d x}(x,0)=\frac{d}{dx}(\setR\to\setR,x\mapsto\left\{\begin{array}{c l}
+    0 & \quad\text{falls}\; x\neq 0 \\
+    0 & \quad\text{falls}\; x=0
+  \end{array}\right| \quad$ Analog $\frac{\d f}{\d y}(0,0)=0$ \\
+\\
+Richtungsableitung? $e=(a,b)$ mit $a^2+b^2=1$. \\
+$f((0,0)+et)=f(at,bt)=\left\{\begin{array}{c l}
+  \frac{atbt}{(at)^2+(bt)^2}=ab & \quad\text{für}\; t\neq 0 \\
+  0 & \quad\text{für}\; t=0
+\end{array}\right.$ \\
+$\Rightarrow$ Richtungsableitung existiert nicht, da unstetig für $t=0$. Also ist $f$ nicht total diff'bar.\\
+\\
+\textit{Beispiel}: $f(x,y)=\left\{\begin{array}{c l}
+  \frac{x^2y}{x^2+y^2} & \quad (x,y)\neq(0,0) \\
+  0 & \quad (x,y)=(0,0)
+\end{array}\right|$ 
+$\longsquiggly f(at,bt)=\left\{\begin{array}{c l}
+    \frac{(at)^2bt}{(at)^2+(bt)^2}=a^2bt & \quad\text{für}\; t\neq 0 \\
+    0 & \quad\text{für}\; t=0
+  \end{array}\right.$ \\
+$\Rightarrow$ Rightungsableitung ist $D_ef(0,0)=a^2b$. Insbesondere $\frac{\d f}{\d x}(0,0)=\frac{\d f}{\d y}(0,0)=0 $ \\
+$\Rightarrow \nabla f(0,0)=(0,0) \Rightarrow f$ ist zwar stetig, aber nicht diff'bar in $(0,0)$. \\
+\\
+\textit{Beispiel}: $f(x,y)=\left\{\begin{array}{c l}
+    \frac{x^2y^2}{x^2+y^2} & \quad\text{für}\; (x,y)\neq(0,0) \\
+    0 & \quad\text{für}\; (x,y)=0
+  \end{array}\right.$ \\
+$|x|,|y|\leq |(x,y)|=\sqrt{x^2+y^2}$ Damit ist $|f(x,y)|\leq|(x,y)|^2=o(|(x,y)|)$ \\
+$\Rightarrow f(x,y)=f(0,0)+0(x-0)+0(y-0)+o(|(x,y)-(0,0)|)$ \\
+$\Rightarrow f$ ist diff'bar in $(0,0)$ mit $\nabla f(0,0)=(0,0)$. \\
+\\
+\textit{Def}: $f$ heisst stetig differenzierbar, wenn $f$ differenzierbar und $\nabla f$ stetig ist. \\
+\\
+\textit{Satz}: $f$ ist stetig differenzierbar genau dann, wenn sie partiell diff'bar ist und $\nabla f$ stetig ist. \\
+\\
+\textit{Beispiel}: Die Funktionen $p:\setR^2\to\setR,(x,y)\mapsto x+y, \quad m:\setR^2\to\setR,(x,y)\mapsto xy$ sind differenzierbar, mit $\nabla p=(1,1),\quad \nabla m=(y,x)$. \\
+\\
+\textit{Kettenregel}: \textit{Satz}: Sei $X\subset\setR^n$ offen $f:X\to\setR$ diff'bar. Seien $g_1..g_n:I\to X$ diff'bar für $I\in\setR$. Dann ist $I\to\setR,\quad t\mapsto f(g_1(t)..g_n(t))$ diff'bar mit Ableitung \\
+$\frac{d}{dt}(f(g_1(t))..f(g_n(t)))=\sum_{i=1}^n\frac{\d f}{\d x_i}(g_1(t)..g_n(t))\frac{dg_i}{dt}$ \\
+\\
+\textit{Beweis}: $\tau\in I$ \\
+$f(g_1(t)..g_n(t))=f(g(\tau))+(\sum_{i=1}^n+\frac{\d f}{\d x_i}(g(\tau))(g_i(t)-t_i(\tau)))+o(|g(t)-g(\tau)|)$ \\
+$=f(g(\tau))+(\sum_{i=1}^n\frac{\d f}{\d x_i}(g(\tau))(\frac{dg_i}{dt}(\tau)(t-\tau)+0(t-\tau)))+o(|t-\tau|)$ \\
+$=f(g(\tau))+(\sum\frac{\d f}{\d x_i}(g(\tau))\frac{dg_i}{dt}(\tau))(t-\tau)+o(|t-\tau|)$ \\
+\\
+\textit{Folge}: Jede aus differenzierbaren Funktionen und den Grundrechenarten zusammengesetzte Funktion ist diff'bar.
+
+\end{document}

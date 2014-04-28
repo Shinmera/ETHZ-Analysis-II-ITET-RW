@@ -1,0 +1,126 @@
+\documentclass[12pt,a4paper,titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[top=3cm, bottom=3cm, left=2cm, right=2cm]{geometry}
+\usepackage{textcomp}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{fix-cm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{mdwlist}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{datetime}
+\usepackage[perpage,para,bottom,marginal]{footmisc}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage[cmtip,all]{xy}
+\newdateformat{dmny}{\monthname[\THEMONTH] \THEYEAR}
+\newdateformat{dyo}{\THEYEAR}
+\setlength{\headheight}{30pt}
+\pagestyle{fancy}
+
+\author{Nicolas Hafner}
+\lhead{Nicolas Hafner}
+\title{Analysis II}
+\chead{Analysis II}
+\rhead{Zürich, \dmny\today}
+\cfoot{\thepage\ / \pageref{LastPage}}
+\lfoot{\copyright \dyo\today TymoonNET/NexT}
+\date{\d_mny\today}
+
+\newcommand{\longsquiggly}{\xymatrix{{}\ar@{~>}[r]&{}}}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\renewcommand{\arg}{\operatorname{arg}}
+\newcommand{\arsinh}{\operatorname{arsinh}}
+\newcommand{\arcosh}{\operatorname{arcosh}}
+\newcommand{\artanh}{\operatorname{artanh}}
+\newcommand{\const}{\operatorname{const}}
+\newcommand{\setC}{\mathbb{C}}
+\newcommand{\setR}{\mathbb{R}}
+\newcommand{\setZ}{\mathbb{Z}}
+\newcommand{\setN}{\mathbb{Z}^{\geq0}}
+
+\begin{document}	
+\begin{center}{\bfseries\Huge Analysis II - 2014.03.06}\end{center}
+\section*{Zweikörperproblem}
+Punktmassen $m_1,m_2$ in $z_1,z_2\in\setR^3,\; z_1\neq z_2$. Anziehungskraft Betrag: $\frac{Gm_1m_2}{|z_1-z_2|^2}$, Rightung: $\frac{z_2-z_1}{|z_2-z_1|}$ \\
+$\Rightarrow$ Kraftvektor: $\frac{Gm_1m_2(z_2-z1)}{|z_2-z_1|^3},\quad$ Beschleunigung: $m_1\ddot z_1=Gm_1m_2\frac{z_2-z_1}{|z_2-z_1|^3},\quad m_2\ddot z_2=Gm_1m_2\frac{z_1-z_2}{|z_1-z_2|^3}$ \\
+\begin{enumerate}[label=(\arabic*)]
+\item $z:=\frac{m_1z_1+m_2z_2}{m_1+m_2}$ Schwerpunkt des Gesamtsystems. \\
+  $\ddot z=\frac{1}{m_1+m_2}(m_1\ddot z_1+m_2\ddot z_2)=0$ \\
+  $\Rightarrow \dot z = \int\ddot z(t)dt = \const$ \\
+  $\Rightarrow z=\int \const dt= \const\cdot t+\const'$ \\
+  Ersetze Koordinatensystem durch ein anderes Inertialsystem. \\
+  \textit{d.h}: $z_i$ durch $z_i-z_{12} \Rightarrow z:=(z_1-z_2)\frac{m_1m_2}{m_1+m_2} \Rightarrow z_1=z_{12}+\frac{z}{m_1},\quad z_2=z_{12}-\frac{z}{m_2}$ \\
+  $\Rightarrow \ddot z=-\frac{Gm_1^3m_2^3}{(m_1+m_2)^2}\cdot\frac{z}{|z|^3}$ \\
+  \\
+  Wähle Einheiten so dass $\frac{Gm_1^3m_2^3}{(m_1+m_2)^2}=1 \quad\Rightarrow \ddot z=-\frac{z}{|z|^3}$ \\
+  $\frac{z}{|z|^3}$ ist lokal Lipschitzstetig und deshalb existiert eine Maximallösung.
+
+\item Sei $U$ der von $z(0)$ und $\dot z(0)$ aufgespannte Unterraum von $\setR^3$. Dann ist $\dim(U)=1\lor 2$. \\
+  Nach Drehung OBdA ist $U=\begin{pmatrix}* & 0 & 0\end{pmatrix}^T \lor \begin{pmatrix}* & * & 0 \end{pmatrix}^T$ \\
+  \textit{Behauptung}: Die Lösung bleibt immer in $U$. \\
+  \textit{Beweis}: Die Einschränkung der DGL $\ddot z=-\frac{z}{|z|^3}$ auf $U$ ist eine DGL in $U$. Diese hat ebenfalls eine Lösung in $U$ und die ist auch eine Lösung in $\setR^3$. Folglich stimmt es mit den Lösungen in $\setR^3$ überein. \emph{qed.}
+
+\item $\dim(U)=1 \longsquiggly U\simeq \setR \Rightarrow \ddot x=\frac{-1}{|x|^3}$
+  
+\item $\dim(U)=2 $ Identifizieren $U\simeq \setR^2=\setC$ \\
+  \textit{Polarkoordinaten} $z=re^{i\varphi}\;\text{für}\;r=r(t),$ \\
+  $\dot z=\dot re^{i\varphi}+rie^{i\varphi}\dot\varphi$ \\
+  $\iff \ddot z=\ddot re^{i\varphi}+2\dot rrie^{i\varphi}\dot\varphi+rie^{i\varphi}\ddot\varphi+rie^{i\varphi}i\dot\varphi\dot\varphi$ \\
+  $\iff \frac{-z}{|z|^3}=-\frac{-re^{i\varphi}}{r^3}=\frac{e^i\varphi}{r^2}=e^{i\varphi}(\ddot r+2\dot rri\dot\varphi+ri\ddot\varphi-r\dot\varphi^2)$ \\
+  $\iff \frac{-1}{r^2}=(\ddot r-r\dot\varphi^2)+i(2\dot r\dot\varphi+\ddot\varphi)r$ \\
+  $\iff\left\{\begin{array}{l}
+      \frac{-1}{r^2}=\ddot r-r\dot\varphi^2 \\
+      2\dot r\dot\varphi+r\ddot\varphi=0
+    \end{array}\right\}$ \\
+  \textit{Note}: Apparently some of the calculations above are incorrect (additional $r$), but the last result can be assumed to be correct.
+
+\item $\mu:=r^2\dot\varphi \Rightarrow \dot\mu=2r\dot r\dot\varphi+r^2\ddot\varphi=r(2\dot r\dot\varphi+r\ddot\varphi)=0$ $\quad\mu$ ist das \emph{Winkelmoment} \\
+  $\Rightarrow \mu$ ist konstant $\neq 0$. Nach etwaiger Spiegelung ist oBdA $\mu>0$
+
+\item $E:=\frac{1}{2}|\dot z|^2-\frac{1}{|z|} = \frac{1}{2}|\dot re^{i\varphi}+re^{i\varphi}i\dot\varphi|^2-\frac{1}{r} = \frac{1}{2}|(\dot r+ri\varphi)e^{i\varphi}|^2-\frac{1}{r} = \frac{1}{2}|\dot r+ri\dot\varphi|^2-\frac{1}{r} $ \\
+  $= \frac{1}{2}(\dot r^2+r^2\dot\varphi^2)-\frac{1}{r} $ \\
+  $\dot E=\dot r\ddot r+r\dot r\dot\varphi^2+r^2\dot\varphi\ddot\varphi+\frac{1}{r^2}\dot r = \dot r\ddot r+r\dot r\dot\varphi^2+r\dot\varphi(-2\dot r\dot\varphi)+\frac{1}{r^2}\dot r = \dot r(\ddot r+r\dot\varphi^2-rr\dot\varphi^2+\frac{1}{r^2})=0$ \\
+  $\Rightarrow$ Energie $E$ konstant.
+
+\item $\dot\varphi=\frac{\mu}{r^2},\quad \dot r^2=2E+\frac{2}{r}-\frac{\mu^2}{r^2}$
+
+\item Diese zweite Gleichung hat im Allgemeinen keine elementare Lösungen. Stattdessen finden wir $r$ als Funktion von $\varphi$. \\
+  \textit{Kettenregel}: $\frac{dr}{d\varphi}=\frac{dr/dt}{d\varphi/dt}=\frac{\dot r}{\dot \varphi} \iff \dot r^2=(\dot\varphi\frac{dr}{d\varphi})^2 \iff 2E+\frac{2}{r}-\frac{\mu^2}{r^2} = (\frac{\mu}{r^2}{dr}{d\varphi})^2$ \\
+  $\Rightarrow (\frac{dr}{d\varphi})^2=\frac{r^4}{\mu^2}(2E+\frac{2}{r}-\frac{\mu^2}{r^2})$
+
+\item $u=\frac{1}{r} \longsquiggly \frac{du}{d\varphi}=-\frac{1}{r^2}\frac{dr}{d\varphi} \iff (\frac{du}{d\varphi})^2=\frac{1}{r^4}(\frac{dr}{d\varphi})^2=\frac{1}{\mu^2}(2E+2u-\mu^2u^2) \iff $\\
+  $(\frac{du}{d\varphi})^2 = (\frac{2E}{\mu^2}+\frac{1}{\mu^4})-(u-\frac{1}{\mu^2})^2 \quad\text{Sei}\; H:=\sqrt{\frac{2E}{\mu^2}+\frac{1}{\mu^4}} \quad \Rightarrow \quad = H^2-(u-\frac{1}{\mu^2})^2$ \\
+  $H$ muss dabei konstant $\geq 0$ sein.
+
+\item Falls $H=0$, so muss $u=\frac{1}{\mu^2}$ konstant sein.
+
+\item Falls $H>0$ ist: $\frac{du}{d\varphi}=\sqrt{H^2-(u-\frac{1}{\mu^2})^2} \iff \int\frac{du}{\sqrt{H^2-(u-\frac{1}{u^2})^2}}=\varphi$ \\
+  Nach Standardintegral.
+
+\item \textit{Lösung}: $\frac{1}{u}=r=\frac{\mu^2}{1+H\mu^2\sin(\varphi-\varphi_0)}$ \\
+  Dies deckt auch den Fall $H=0$ ab.
+
+\item Übersetze in $z=re^{i\varphi}=x+iy \longsquiggly x^2=2E\mu^2y^2-2H\mu^4y+\mu^4$ \\
+  \textit{Also}: Körper bewegt sich längs dieser Kurve. \\
+  Dies ist eine $\left\{\begin{array}{l l}
+    E<0 & \quad\text{Ellipse} \\
+    E=0 & \quad\text{Parabel} \\
+    E>0 & \quad\text{Hyperbel}
+  \end{array} $
+\end{enumerate}
+
+\end{document}

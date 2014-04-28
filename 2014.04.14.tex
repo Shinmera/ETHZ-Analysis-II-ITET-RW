@@ -1,0 +1,129 @@
+\documentclass[12pt,a4paper,titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[top=3cm, bottom=3cm, left=2cm, right=2cm]{geometry}
+\usepackage{textcomp}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{fix-cm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{mdwlist}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{datetime}
+\usepackage[perpage,para,bottom,marginal]{footmisc}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage[cmtip,all]{xy}
+\newdateformat{dmny}{\monthname[\THEMONTH] \THEYEAR}
+\newdateformat{dyo}{\THEYEAR}
+\setlength{\headheight}{30pt}
+\pagestyle{fancy}
+
+\author{Nicolas Hafner}
+\lhead{Nicolas Hafner}
+\title{Analysis II}
+\chead{Analysis II}
+\rhead{Zürich, \dmny\today}
+\cfoot{\thepage\ / \pageref{LastPage}}
+\lfoot{\copyright \dyo\today TymoonNET/NexT}
+\date{\d_mny\today}
+
+\newcommand{\longsquiggly}{\xymatrix{{}\ar@{~>}[r]&{}}}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\renewcommand{\arg}{\operatorname{arg}}
+\renewcommand{\d}{\partial}
+\newcommand{\arsinh}{\operatorname{arsinh}}
+\newcommand{\arcosh}{\operatorname{arcosh}}
+\newcommand{\artanh}{\operatorname{artanh}}
+\newcommand{\setC}{\mathbb{C}}
+\newcommand{\setR}{\mathbb{R}}
+\newcommand{\setZ}{\mathbb{Z}}
+\newcommand{\setN}{\mathbb{Z}^{\geq0}}
+\newcommand{\Graph}{\operatorname{Graph}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\diam}{\operatorname{diam}}
+
+\newcount\colveccount
+\newcommand*\colvec[1]{
+  \global\colveccount#1
+  \begin{pmatrix}
+    \colvecnext
+  }
+  \def\colvecnext#1{
+    #1
+    \global\advance\colveccount-1
+    \ifnum\colveccount>0
+    \\
+    \expandafter\colvecnext
+    \else
+  \end{pmatrix}
+  \fi
+}
+
+\begin{document}	
+\begin{center}{\bfseries\Huge Analysis II - 2014.04.14}\end{center}
+After horribly singing an awful song we finally get on with the lecture. Only a single question remains in my head to this point. How am I still typing when I'm already long dead? Though even while I haunt this classroom for what feels like an eternity of pain and suffering, there never seems to be an answer. When will this curse finally end? When will I finally be free? When will
+
+\section*{Polarkoordinaten}
+$dxdy=rdrd\varphi$
+
+\section*{Kugelkoordinaten}
+$\colvec{3}{x=r\cos\vartheta\cos\varphi}{y=r\cos\vartheta\sin\varphi}{z=r\sin\vartheta} \quad dxdydz=r^2\cos\vartheta \;drd\vartheta d\varphi$ \\
+\\
+\\
+\textit{Beispiel}: $B=\left\{\colvec{3}{x}{y}{z}\in\setR^3:\left|\colvec{3}{x}{y}{z}\right|\leq R\right\} \quad \vol(B)=\int\int\int_R1 \;dxdydz=\int\limits_0^R\int\limits_{-\frac{\pi}{2}}^{\frac{\pi}{2}}\int\limits_0^{2\pi}1r^2\cos\vartheta \;d\varphi d\vartheta dr$ \\
+$=\int\limits_0^R\int\limits_{-\frac{\pi}{2}}^{\frac{\pi}{2}}2\pi r^2\cos\vartheta  \;d\vartheta dr = \int\limits_0^R(\left.2\pi r^2\sin\vartheta\right|_{\vartheta=-\frac{\pi}{2}}^{\vartheta=\frac{\pi}{2}}) \;dr = \int\limits_0^R4\pi r^3 \;dr = \left.\frac{4\pi r^3}{3}\right|_0^R = \frac{4\pi R^3}{3}$ \\
+\\
+\\
+\textit{Beispiel}: $B:=\left\{\colvec{4}{x}{y}{z}{u}\in\setR^4\biggr\rvert\; \text{Betrag} \leq R\right\}$ \\
+$\colvec{2}{x}{y}=\colvec{2}{r\cos\varphi}{r\sin\varphi} \quad \colvec{2}{z}{u}=\colvec{2}{\rho\cos\psi}{\rho\sin\psi}$ \\
+$\left|\colvec{4}{x}{y}{z}{u}\right|=\sqrt{r^2+\rho^2}\leq R,\quad \varphi,\psi\in[0,2\pi] \quad dxdydzdu=r\rho drd\varphi d\rho d\psi$ \\
+$\vol(B)=\int_{r,rho\geq 0}\int_{r^2+\rho^2\leq R^2}\int_0^{2\pi}\int_0^{2\pi} 1r\rho \;d\psi d\varphi d\rho dr = \int_0^R\int_0^{\sqrt{R^2-r^2}}(2\pi)^2 r\rho \;d\rho dr$ \\
+$\int_0^R\left(\left.(2\pi)^2\frac{r\rho^2}{2}\right|_{\rho=0}^{\rho=\sqrt{R^2-r^2}}\right) \;dr = \int_0^R(2\pi)^2\frac{r}{2}(R^2-r^2) \;dr = \left.\frac{4\pi^2}{2}(\frac{r^2}{2}R^2-\frac{r^4}{4})\right|_{r=0}^R = 2\pi^2(\frac{R^4}{2}-\frac{R^4}{4})$ \\
+$ = \frac{pi^2R^4}{2}$
+
+\section*{Rotationskörper}
+\subsection*{Zylinderkoordinaten}
+$x=\rho\cos\varphi \quad y=\rho\sin\varphi \quad z=z \quad X=\left\{\colvec{3}{\rho\cos\varphi}{\rho\sin\varphi}{z}\biggr\rvert \;\colvec{2}{\rho}{z}\in B,\; \varphi\in[0,2\pi]\right\}$ für $B\subset\setR^{\geq 0}\times\setR$ \\
+$\Rightarrow \int_Xf\colvec{3}{x}{y}{z} \;d\vol_3\colvec{3}{x}{y}{z}=\int_B\left(\int_0^{2\pi}f\colvec{3}{\rho\cos\varphi}{\rho\sin\varphi}{z} \;d\varphi\right)\rho \;d\vol_2\colvec{2}{\rho}{z}$ \\
+Falls $f$ unabhängig von $\varphi$: $=\int_B2\pi f\colvec{3}{\rho}{0}{z}\rho \;d\vol\colvec{2}{\rho}{z}$ \\
+\\
+\\
+\textit{Beispiel}: Torus $R>r>0 \quad B=\left\{\colvec{2}{\rho}{z}\in\setR^2 \biggr\rvert\; (\rho-R)^2+z^2\leq r^2\right\}$ \\
+$\vol(X)=\int_X1\;d\vol=\int_B2\pi\rho \;d\vol\colvec{2}{\rho}{z} = \int\limits_{-r}^r\left(\int\limits_{R-\sqrt{r^2-z^2}}^{R+\sqrt{r^2-z^2}}2\pi\rho \;d\rho\right) \;dz = \left.\int\limits_{-r}^r\pi\rho^2\right|_{R-\sqrt{r^2-z^2}}^{R+\sqrt{r^2-z^2}}\;dz$ \\
+$=\int\limits_{-r}^r\pi 4R\sqrt{r^2-z^2} \;dz$
+Apparently this is a dumb way to do things and you should've instead used polar coordinates. So instead he just gives us the result directly since we've long gone past break time: $=2\pi Rr^2$ \\
+\\
+\textit{Spezialfall}: Sei $g:[a,b]\to\setR^{\geq 0}\quad X=\left\{\colvec{3}{x}{y}{z}\in\setR^3\biggr\rvert\;\substack{z\in[a,b] \\ \sqrt{x^2+y^2}\leq g(z)}\right\} \quad f$ Rotationsinvariant \\
+$\Rightarrow \int_Xf \;d\vol_3=\int_a^b\left(\int_0^{g(z)}f\colvec{3}{\rho}{0}{z}2\pi\rho \;d\rho\right) \;dz \overset{\text{falls}\;f\;\text{nur von}\;z\;\text{abhängt}}{=}\int_a^bf\colvec{3}{0}{0}{z}\pi\rho^2\mid_0^{g(z)} \;dz $ \\
+$=\int_a^bf\colvec{3}{0}{0}{z}\pi g(z)^2 \;dz$ \\
+\\
+\\
+\textit{Zum Beispiel}: $\vol(X)=\int_a^b\pi g(z)^2 \;dz $ \\
+\\
+\textit{Beispiel}: $g:[0,h]\to\setR^{\geq 0}\; z\mapsto \frac{Rz}{h} \Rightarrow X=$ Kegel der Höhe h und Radius der Basis $R$. \\
+$\Rightarrow \vol(X)=\int_0^h\pi(\frac{Rz}{h})^2 \;dz = \frac{\pi R^2}{h^2}\frac{z^3}{3}\mid_0^h = \frac{\pi R^2h}{3}$
+
+\subsection*{Physikalische Grössen}
+\textit{Masse}: Sei $\mu:X\to\setR^{\geq 0}$ die Massendichte-Funktion, dann ist die Gesamtmasse $=\int_X\mu \;d\vol$. Insbesondere ist $X$ homogen mit konstanter Massendichte, so ist die Gesamtmasse $=\mu\vol(X)$. \\
+\\
+\textit{Schwerpunkt}: Das gewichtete Mittel der Ortsvektoren aller Massen. $\longsquiggly S=\frac{\sum m_ix_i}{\sum m_i}$ \\
+$S=\frac{1}{\text{Masse von}\;X}\int_X\mu(x)x \;d\vol(x)$ \\
+\\
+\textit{Beispiel}: Schwerpunkt einer homogenen Halbkreisscheibe mit Gesamtmasse $\mu\frac{\pi R^2}{2}$. \\
+$X=\left\{\colvec{2}{r\cos\varphi}{r\sin\varphi}\biggr\rvert\;\substack{0\leq r\leq R \\ 0\leq \varphi\leq \pi}\right\} \Rightarrow S=\frac{2}{\mu\pi R^2}\int_X\mu\colvec{2}{x}{y} \;d\vol\colvec{2}{x}{y} = \frac{2}{\pi R^2}\int_0^R\int_0^\pi\colvec{2}{r\cos\varphi}{r\sin\varphi}r \;d\varphi dr$ \\
+$=\frac{2}{\pi R^2}(\int_0^Rr^2 \;dr)\left(\int_0^\pi\colvec{2}{\cos\varphi}{\sin\varphi} \;d\varphi\right) = \frac{2}{\pi R^2}(\frac{R^3}{3})\left(\left.\colvec{2}{\sin\varphi}{-\cos\varphi}\right|_{\varphi=0}^{\varphi=\pi}\right) = \frac{2R}{3\pi}\colvec{2}{0}{2}=\colvec{2}{0}{\frac{4R}{3\pi}}$
+\end{document}

@@ -1,0 +1,127 @@
+\documentclass[12pt,a4paper,titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[top=3cm, bottom=3cm, left=2cm, right=2cm]{geometry}
+\usepackage{textcomp}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{fix-cm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{mdwlist}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{datetime}
+\usepackage[perpage,para,bottom,marginal]{footmisc}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage[cmtip,all]{xy}
+\newdateformat{dmny}{\monthname[\THEMONTH] \THEYEAR}
+\newdateformat{dyo}{\THEYEAR}
+\setlength{\headheight}{30pt}
+\pagestyle{fancy}
+
+\author{Nicolas Hafner}
+\lhead{Nicolas Hafner}
+\title{Analysis II}
+\chead{Analysis II}
+\rhead{Zürich, \dmny\today}
+\cfoot{\thepage\ / \pageref{LastPage}}
+\lfoot{\copyright \dyo\today TymoonNET/NexT}
+\date{\d_mny\today}
+
+\newcommand{\longsquiggly}{\xymatrix{{}\ar@{~>}[r]&{}}}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\renewcommand{\arg}{\operatorname{arg}}
+\renewcommand{\d}{\partial}
+\newcommand{\arsinh}{\operatorname{arsinh}}
+\newcommand{\arcosh}{\operatorname{arcosh}}
+\newcommand{\artanh}{\operatorname{artanh}}
+\newcommand{\setC}{\mathbb{C}}
+\newcommand{\setR}{\mathbb{R}}
+\newcommand{\setZ}{\mathbb{Z}}
+\newcommand{\setN}{\mathbb{Z}^{\geq0}}
+\newcommand{\Graph}{\operatorname{Graph}}
+
+\begin{document}	
+\begin{center}{\bfseries\Huge Analysis II - 2014.03.31}\end{center}
+\textit{Beispiel}: Bestimme das Maximum von $f(x_1..x_n):=x_1\cdot..\cdot x_n$ auf \\
+$B:=\{(x_1..x_n)\in\setR^n\mid \;\text{alle}\; x_i\geq 0\quad x_1+..+x_n=s\}$ für $s>0$ fest. \\
+\\
+\textit{Lösung}: Nebenbedingung $g(x_1..x_n):=x_1+..+x_n-s$. $B$ kompakt, da abgeschlossen, beschränkt und nichtleer. $f$ stetig $\Rightarrow$ Maximum existiert. Weil z.B. $(\frac{s}{n}..\frac{s}{b})\in B$ mit $f('')>0$ \\
+$\Rightarrow$ Maximalstelle erfüllt $x_i>0$ für alle $i$. \\
+$\Rightarrow$ lokales Extremum von $f$ unter $g=0$. \\
+$\Rightarrow$ entspricht kritischem Punkt von $F(x_1..x_n):=x_1\cdot..\cdot x_n-\lambda(x_1+..+x_n-s)$ \\
+$\Rightarrow \frac{\d F}{\d x_i}=x_1\cdot..\cdot \widehat{x_i}\cdot..\cdot x_n-\lambda\cdot 1=0$ \\
+$\Rightarrow \frac{\d F}{\d \lambda}=-(x_1+..+x_n-s)=0 \iff \frac{x_1..x_n}{x_i}=\lambda \iff x_i=\frac{x_1..x_n}{\lambda} \iff $ alle $x_i$ gleich $\frac{s}{n}$. \\
+$\Rightarrow$ Die einzige Maximalstelle von $f$ auf $B$ ist $(\frac{s}{n}..\frac{s}{n})$ mit $f(..)=\left(\frac{s}{n}\right)^n$ \\
+$\Rightarrow \forall s\geq 0\forall x_1..x_n\geq 0:x_1+..+x_n=s:x_1\cdot..\cdot x_n\leq(\frac{s}{n})^n$ \\
+\\
+\textit{Folge}: Für alle $x_1..x_n\geq 0$ gilt $\underbrace{\sqrt[n]{(x_1\cdot..\cdot x_n)}}_{\text{geometrisches Mittel}}\leq\underbrace{\frac{x_1+..+x_n}{n}}_{\text{arithmetisches Mittel}}$. \\
+\\
+\textit{Beispiel}: Bestimme die Extrema von $f(x,y,z):=x$ auf \\
+$B:=\{(x,y,z)\in\setR^3\mid x^2+y^2+z^2=1\quad 5x+4y+3z=0\}$ \\
+\\
+\textit{Lösung}: $g_1(x,y,z):=x^2+y^2+z^2-1 \quad g_2(x,y,z):=5x+4y+3z$ \\
+$\Rightarrow \nabla g_1=(2x,2y,2z) \quad \nabla g_2=(5,4,3)$ \\
+Wenn die linear abhängig sind, ist $(2x,2y,2z)=\lambda(5,4,3)$ sein. \\
+$\Rightarrow g_2(x,y,z)=\frac{\lambda}{2}(5^2+4^2+3^2)=0 \Rightarrow \lambda=0 \Rightarrow x=y=z=0 \Rightarrow g_2(x,y,z)\neq 0$ \\
+$\Rightarrow$ $B$ überall reguläre Kurve. \\
+$F(x,y,z):=x+\lambda(x^2+y^2+z^2-1)+\mu(5x+4y+3z)$ \\
+$\begin{array}{lll}
+  F_x= & 1+2\lambda x+5\mu & \overset{!}{=}0 \\
+  F_y= & 2\lambda y+4\mu & \overset{!}{=}0 \\
+  F_z= & 2\lambda z+3\mu & \overset{!}{=}0 \\
+  F_\lambda= & x^2+y^2+z^2-1 & \overset{!}{=}0 \\
+  F_\mu= & 5x+4y+3z & \overset{!}{=}0 \\
+\end{array} \Rightarrow \begin{array}{l}
+  x=\frac{-1-5\mu}{2\lambda} \\
+  y=\frac{-4\mu}{2\lambda} \\
+  z=\frac{-3\mu}{2\lambda} \\
+  \lambda\neq 0 \\
+  \quad
+\end{array}$ Einsetzen $\longsquiggly \lambda=\pm\frac{\sqrt{2}}{10} $ \\
+$\Rightarrow (x,y,z)=\pm\frac{\sqrt{2}}{10}(-5,4,3)$. Dort ist $f=\pm\frac{\sqrt{2}}{2} \Rightarrow$ Diese Punkte sind die Extremalstellen.
+
+\section*{Vektorwertige Funktionen}
+Ab jetzt \emph{Spaltenvektoren}. Sei $U\subset\setR^n$ offen und $f:=(f_1..f_m)^T:U\to\setR^n$ \\
+\\
+\textit{Definition}: $f$ heisst $k$-mal diff'bar, bzw. $k$-mal stetig diff'bar, wenn jedes $f_i$ es ist. \\
+\\
+$f_i$ diff'bar in $\xi \iff f_i(x)=f_i(\xi)+\overbrace{\nabla f_i(\xi)}^{\text{Zeile}}\cdot \overbrace{(x-\xi)}^{\text{Spalte}}+o(|x-\xi|)$ \\
+$f$ diff'bar in $\xi \iff f(x)=f(\xi)+\nabla f(\xi)\cdot (x-\xi)+o(|x-\xi|)$ \\
+Dabei ist $\nabla f=\begin{pmatrix}\nabla f_1 \\ \vdots \\ \nabla f_m\end{pmatrix}=
+\begin{pmatrix}
+  \frac{\d f_1}{\d x_1} & \hdots & \frac{\d f_1}{\d x_n} \\
+  \vdots & \ddots & \vdots \\
+  \frac{\d f_m}{\d x_1} & \hdots & \frac{\d f_m}{\d x_n}
+\end{pmatrix}$ \emph{erste Ableitung von $f$}, \emph{Funktionalmatrix von $f$}, \emph{Jacobi-Matrix}. \\
+\\
+\textit{Beispiel}: $f(x):=\overbrace{A}^{\mathclap{m\times n\;\text{Matrix}}}x+\underbrace{b}_{\mathclap{\text{Spaltenvektor der Länge}\;m}}$ \\
+$f:\setR^n\to\setR^m$ Für jedes $\xi\in\setR^n$ ist $f(x)=(\underbrace{A\xi+b}_{f(\xi)})+\underbrace{A(x-\xi)}_{\nabla f(\xi)} \Rightarrow f$ diff'bar mit $\nabla f=A$. \\
+\\
+\textit{Beispiel}: $f:\setR^n\to\setR^n, x\mapsto x \Rightarrow \nabla f=\begin{pmatrix}1 & \hdots & 0 \\ \vdots & \ddots & \vdots \\ 0 & \hdots & 1\end{pmatrix}=: I_n$ \\
+\\
+\textit{Definition}: Eine diff'bare Funktion $f$ heisst \emph{regulär in $\xi$}, wenn $\nabla f(\xi)$ maximalen Rang hat. \\
+\\
+\textit{Spezialfall}: $m\leq n \Rightarrow $ Zeilen von $\nabla f$ lin. unabhängig. \\
+Bedeutung: Niveaumenge $\{x\in U\mid f(x)=c\in\setR^m\}$ regulär. \\
+\\
+\textit{Spezialfall}: $m\geq n \Rightarrow $ Spalten von $\nabla f$ lin. unabhängig. \\
+Bedeutung: $f$ lokal injektiv. $\operatorname{Bild}(f)$  lokal glatte Teilmenge der Dimension $n$. \\
+\\
+\textit{Beispiel}: $\setR\to\setR^2,\; t\mapsto\begin{pmatrix}t^2\\t^3\end{pmatrix},\; \nabla t=\begin{pmatrix}2t \\ 3t^2\end{pmatrix}\;$ regulär $\iff t\neq 0$ \\
+\\
+\textit{Vergleiche}: $\setR\to\setR^3,\; t\mapsto\begin{pmatrix}t\\t^2\\t^3\end{pmatrix}$
+\end{document}

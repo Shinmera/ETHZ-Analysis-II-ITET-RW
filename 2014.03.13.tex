@@ -1,0 +1,113 @@
+\documentclass[12pt,a4paper,titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[top=3cm, bottom=3cm, left=2cm, right=2cm]{geometry}
+\usepackage{textcomp}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{fix-cm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{mdwlist}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{datetime}
+\usepackage[perpage,para,bottom,marginal]{footmisc}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage[cmtip,all]{xy}
+\newdateformat{dmny}{\monthname[\THEMONTH] \THEYEAR}
+\newdateformat{dyo}{\THEYEAR}
+\setlength{\headheight}{30pt}
+\pagestyle{fancy}
+
+\author{Nicolas Hafner}
+\lhead{Nicolas Hafner}
+\title{Analysis II}
+\chead{Analysis II}
+\rhead{Zürich, \dmny\today}
+\cfoot{\thepage\ / \pageref{LastPage}}
+\lfoot{\copyright \dyo\today TymoonNET/NexT}
+\date{\d_mny\today}
+
+\newcommand{\longsquiggly}{\xymatrix{{}\ar@{~>}[r]&{}}}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\renewcommand{\arg}{\operatorname{arg}}
+\renewcommand{\d}{\partial}
+\newcommand{\arsinh}{\operatorname{arsinh}}
+\newcommand{\arcosh}{\operatorname{arcosh}}
+\newcommand{\artanh}{\operatorname{artanh}}
+\newcommand{\setC}{\mathbb{C}}
+\newcommand{\setR}{\mathbb{R}}
+\newcommand{\setZ}{\mathbb{Z}}
+\newcommand{\setN}{\mathbb{Z}^{\geq0}}
+\newcommand{\Graph}{\operatorname{Graph}}
+
+\begin{document}	
+\begin{center}{\bfseries\Huge Analysis II - 2013.03.13}\end{center}
+\textit{Erinnerung}: $f$ diff'bar in $\xi \iff f(x)=f(\xi)\langle\nabla f(\xi),x-\xi\rangle+o(|x-\xi|) \quad \nabla f=(\frac{\d f}{\d x_1},...,\frac{\d f}{\d x_n})$ \\
+\textit{Kettenregel}: $f,g_1,..,g_n$ diff'bar $\Rightarrow$ dito $f(g_1(t),..,g_n(t))$ und $\frac{d}{dt}(f(g_1(t),..,g_n(t)))=\sum_{i=1}^n\frac{\d f}{\d x_i}(g(t))\frac{dg_i}{dt}$ \\
+$=\langle\nabla f(g(t)), \frac{dg}{dt}\rangle$ \\
+\\
+\textit{Beispiel}: $f(x,y)=x^2+y^2, \quad g(t):=(\cos t,\sin t) \quad\Rightarrow f(g(t))=\cos^2t+\sin^2t=1$ \\
+$\Rightarrow \frac{d}{dt}(f(g(t)))=0 \quad$ \underline{Nachrechnen}: $\frac{dg}{dt}=(-\sin t,\cos t),\quad \nabla f=(2x,2y) $ \\
+$\Rightarrow \frac{\d f}{\d x}(g(t))\frac{dg_1}{dt}+\frac{\d f}{\d y}(g(t))\frac{dg_2}{dt} = 2\cos t\frac{dg_1}{dt}+2\sin t\frac{dg_2}{dt} = 2\cos t(-\sin t)+2\sin t(\cos t) = 0$ \\
+\\
+\textit{Beispiel}: Berechne näherungsweise $\alpha:=\sqrt{3.03^3+3.95^2}=|(3.03,3.95)|$ \\
+\textit{Lösung}: $f(x,y):=\sqrt{x^2+y^2}$ ist diff'bar bei $(x,y)=(3,4),\quad f(3,4)=\sqrt{3^2+4^2}=5$ \\
+$\Rightarrow f(3.03,3.95) = f(3,4)+\frac{\d f}{\d x}(3,4)(3.03-3) + \frac{\d f}{\d y}(3,4)(3.95-4)+o(|(0.03,-0.05)|)$ \\
+$\Rightarrow \frac{\d f}{\d x}=\frac{x}{\sqrt{x^2+y^2}},\quad \frac{\d f}{\d y}=\frac{y}{\sqrt{x^2}{y^2}}, \quad\Rightarrow\quad \simeq 5+\frac{3}{5}(0.03)+\frac{4}{5}(-0.05)=5+0.018-0.04=\underline{4.978}$ \\
+Wahrer Wert: $4.97829..$ \\
+\\
+\textit{Beispiel}: $(0,0)\to(0,-1): 20\%$ bergab, $\quad (0,0)\to(1,-1): 25\%$ bergab. \\
+Annahme: Höhenfunktion $h$ diff'bar. \\
+$\nabla h(0,0)=(a,b) \Rightarrow \langle(a,b),(0,-1)\rangle=$ Anstieg in Richtung $(0,1)$ = Süden. \\
+$\langle(a,b),(0,-1)\rangle=-b=-20\%=\frac{-1}{5} \Rightarrow b=\frac{1}{5}$ \\
+$\langle(a,b),(1,-1)\rangle=\frac{a-b}{\sqrt{2}}=+25\%=\frac{1}{4} \Rightarrow a=b+\frac{\sqrt{2}}{4} \Rightarrow a=\frac{1}{5}+\frac{\sqrt{2}}{4}$ \\
+$\Rightarrow \nabla h(0,0)=(\frac{1}{5}{\sqrt{2}}{4},\frac{1}{5})\quad$ \\
+Dieser Vektor gibt die Richtung des steilsten Anstiegs an, sein Betrag den max. Anstieg. \\
+$\Rightarrow |(\frac{1}{5}+{\sqrt{2}}{4},\frac{1}{5}|\simeq 0.59=59\%,\quad (\frac{1}{5}+\frac{\sqrt{2}}{4},\frac{1}{5})=(r\cos\varphi,r\sin\varphi)\Rightarrow \frac{1/5}{1/5+\sqrt{2}/5}=\tan\varphi $ \\
+$\Rightarrow \varphi=arct(\frac{1/5}{1/5+\sqrt{2}/4})\simeq 19.86\text{°}+k\pi$ \\
+\\
+\textit{Definition}: Eine Teilmenge von $\setR^2$ deren Durchschnitt mit jeder zur (y/x)-Achse parallelen Geraden leer oder eine Intervall ist, heisst (y/x)-einfach. \\
+\\
+\textit{Beispiel}: Für $I\subset\setR$ und $\varphi,\psi:I\to\setR$ ist $\{(x,y)|x\in I,\quad \varphi(x)<y<\psi(x)\}$ y-einfach. \\
+\\
+\textit{Erinnerung}: Jede auf einem \emph{Intervall definierte}, diff'bare Funktion $f$ mit ableitung $0$ ist konstant. \\
+\\
+\textit{Fakt}: ist $X\subset\setR^2$ y-einfach und $f:X\to\setR$ hat überall $\frac{\d f}{\d y}=0$, dann hängt $f(x,y)$ nur von $x$ ab. Das heisst, dann existiert eine Funktion $U\to\setR$ mit $\forall(x,y)\in X:x\in U$ und $f(x,y)=g(x)$. Analog für mehrere Variablen. \\
+\\
+\textit{Beispiel}: $X:=\setR^2\setminus\{(x,0)\mid x\leq 0\}$. Dies ist nicht y-einfach. \\
+$f(x,y):=\left\{\begin{array}{c l}
+    0 & \quad\text{falls}\; y<0\lor x\geq0 \\
+    x^n & \quad\text{falls}\; y>0\land x<0
+  \end{array}\right.$ 
+
+\section*{Ableiten unter dem Integral}
+\textit{Satz}: Sei $X\subset\setR$, und $f:[a,b] X\to\setR, (x,t)\mapsto f(x,t)$ eine stetige Funktion mit stetiger partieller Ableitung $\frac{\d f}{\d t}$. Dann ist die Funktion
+$$\Phi:X\to\setR,\quad t\mapsto\int\limits_a^bf(x,t) \;dx \quad\text{diff'bar mit}\quad \frac{d\Phi}{dt}=\int\limits_a^b\frac{\d f}{\d t}(x,t) \;dx$$
+\textit{Beispiel}: $\Phi_\alpha:=\int_0^1\frac{x^\alpha-1}{\log x}dx$ mit $\alpha\geq 0$. Bei $x=0$ mit $0$ stetig fortgesetzt. Bei $x=1$ besitzt auch stetige Fortsetzung $\lim\limits_{x\to 1+}\frac{\alpha x^{\alpha-1}}{1/x} = \lim\limits_{x\to 1+}\alpha x^\alpha=\alpha$ \\
+$\Rightarrow \frac{\d}{\d x}(\frac{x^\alpha-1}{\log x}) = \frac{\log x\cdot x^\alpha}{\log x} = x^\alpha$ \\
+$\Rightarrow \Phi$ diff'bar und $\frac{d\Phi}{d\alpha} = \int_0^1x^\alpha\;dx = \left.\frac{x^{\alpha+}}{\alpha+1}\right|_0^1 = \frac{1}{\alpha+1}$ \\
+$\Rightarrow \Phi_\alpha = \int\frac{1}{\alpha+1} \;d\alpha = \log(\alpha+1)+c$ \\
+Aber $\Phi_0=\int_0^1\frac{x^0-1}{\log x} \;dx=\int_0^10 \;dx = 0 = \log(0+1)+c = c $ \\
+$\Rightarrow c=0 \Rightarrow \forall\alpha\geq0:\in_0^1\frac{x^\alpha-1}{\log x}\; dx=\log(\alpha+1)$ \\
+\\
+\textit{Variante}: \textit{Satz}: Sei $f$ eine stetig diff'bare Funktion $(x,t)$. Dann ist, wo definiert $(a,b,t)\mapsto\Phi(a,b,t) :=\int_a^bf(x,t) \;dx$ differenzierbar mit den partiellen Ableitungen \\
+$$\begin{array}{c c c}
+  \frac{\d \Phi}{\d a}= f(a,t) & \quad
+  \frac{\d \Phi}{\d b}= f(b,t) & \quad
+  \frac{\d \Phi}{\d t}= \int_a^b\frac{\d f}{\d t}(x,t) \;dt
+\end{array}$$
+
+\end{document}

@@ -1,0 +1,130 @@
+\documentclass[12pt,a4paper,titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[top=3cm, bottom=3cm, left=2cm, right=2cm]{geometry}
+\usepackage{textcomp}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{fix-cm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{mdwlist}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{datetime}
+\usepackage[perpage,para,bottom,marginal]{footmisc}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage[cmtip,all]{xy}
+\newdateformat{dmny}{\monthname[\THEMONTH] \THEYEAR}
+\newdateformat{dyo}{\THEYEAR}
+\setlength{\headheight}{30pt}
+\pagestyle{fancy}
+
+\author{Nicolas Hafner}
+\lhead{Nicolas Hafner}
+\title{Analysis II}
+\chead{Analysis II}
+\rhead{Zürich, \dmny\today}
+\cfoot{\thepage\ / \pageref{LastPage}}
+\lfoot{\copyright \dyo\today TymoonNET/NexT}
+\date{\d_mny\today}
+
+\newcommand{\longsquiggly}{\xymatrix{{}\ar@{~>}[r]&{}}}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\renewcommand{\arg}{\operatorname{arg}}
+\renewcommand{\d}{\partial}
+\newcommand{\arsinh}{\operatorname{arsinh}}
+\newcommand{\arcosh}{\operatorname{arcosh}}
+\newcommand{\artanh}{\operatorname{artanh}}
+\newcommand{\setC}{\mathbb{C}}
+\newcommand{\setR}{\mathbb{R}}
+\newcommand{\setZ}{\mathbb{Z}}
+\newcommand{\setN}{\mathbb{Z}^{\geq0}}
+\newcommand{\Graph}{\operatorname{Graph}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\diam}{\operatorname{diam}}
+
+\newcount\colveccount
+\newcommand*\colvec[1]{
+  \global\colveccount#1
+  \begin{pmatrix}
+    \colvecnext
+  }
+  \def\colvecnext#1{
+    #1
+    \global\advance\colveccount-1
+    \ifnum\colveccount>0
+    \\
+    \expandafter\colvecnext
+    \else
+  \end{pmatrix}
+  \fi
+}
+
+\begin{document}	
+\begin{center}{\bfseries\Huge Analysis II - 2014.04.10}\end{center}
+\textit{Erinnerung}: Satz von Fubini: $X\subset\setR^n$ kompakt, $\varphi,\psi:X\to\setR$ stetig, \\
+$\forall x\in X:\varphi(x)\leq\psi(x) Z:=\left\{\colvec{2}{x}{y}\in\setR^{n+1}\biggr\rvert\substack{x\in X \\\varphi(x)\leq y\leq \psi(x)}\right\}$ \\
+$\Rightarrow \int\limits_Zf\colvec{2}{x}{y} \;d\vol_{n+1}\colvec{2}{x}{y}=\int\limits_X\left(\int\limits_{\varphi(x)}^{\psi(x)}f\colvec{2}{x}{y} \;dy\right) \;d\vol_n(x)$ \\
+\\
+\\
+\textit{Beispiel}: $\int\limits_{[1,a]\times [1,b]}\frac{1}{(x+y)^2} \;d\vol\colvec{2}{x}{y}\overset{\text{Fubini}}{=} \int\limits_1^b(\int\limits_1^a\frac{dx}{(x+y)^2}) \;dy = \int\limits_1^b(\frac{-1}{x+y}\rvert_{x=1}^{x=a}) \;dy = \int_1^b\frac{1}{1+y}-\frac{1}{a+y} \;dy$ \\
+$=(\log|1+y|-\log|a+y|)\rvert_{y=1}^{y=b} = \log|1+b|-\log|a+b|-\log|2|+\log|a+1|=\log\frac{(1+a)(1+b)}{2(a+b)}$ \\
+\\
+\\
+\textit{Beispiel}: $\int\limits_{[0,\pi]^3}\sin(x+y+z) \;d\vol\colvec{3}{x}{y}{z}$ \\
+$= \int\limits_0^\pi\int\limits_0^\pi\int\limits_0^\pi\sin(x+y+z) \;dzdydx = \int\limits_0^\pi\int\limits_0^\pi2\cos(x+y) \;dydz = \int\limits_0^\pi4\sin x \;dx = -8$ \\
+\\
+\\
+\textit{Beispiel}: Umrechnen des Integrationsbereichs \\
+$\int\limits_0^2\int\limits_0^{4\sqrt{2y}}f(x,y) \;dxdy \quad B=\left\{(x,y)\in\setR^2\mid\substack{0\leq y\leq 2 \\ 0\leq x\leq 4\sqrt{2y}} \iff \substack{0\leq y\leq 2 \\ 0\leq x \\ x^2\leq 32y} \iff \substack{x\geq 0 \\ \frac{x^2}{32}\leq y\leq 2} \iff \substack{0\leq x\leq 8 \\ \frac{x^2}{32}\leq y\leq 2}\right\}$ \\
+$\Rightarrow =\int\limits_0^8\int\limits_{\frac{x^2}{32}}^2f(x,y) \;dydx$ \\
+\\
+\\
+\textit{Beispiel}: $\int\limits_{-1}^2\int\limits_{-x}^{2-x^2}f(x,y) \;dydx \quad \text{Bereich}: \substack{-1\leq x\leq 2 \\ -x\leq y\leq 2-x^2} \iff \substack{-1\leq x\leq 2 \\ -y\leq x \\ x^2\leq 2-y} \iff \substack{-2\leq y\leq 2 \\ -1,-y\leq x\leq 2 \\ \sqrt{2-y}\leq x\leq \sqrt{-y}} \iff \substack{...}$ \\
+At this point we give up on this approach and instead draw a fancy graph. \\
+$\Rightarrow =\int\limits_{-2}^1\int\limits_{-y}^{\sqrt{2-y}}f(x,y) \;dxdy+\int\limits_1^2\int\limits_{-\sqrt{2-y}}^{\sqrt{2-y}}f(x,y) \;dxdy$ \\
+\section*{Substitution}
+Seien $X,\widetilde{X}\subset\setR^n$ kompakt, sei $\varphi:\widetilde{X}\to X$ stetig diff'bar bijektiv ausserhalb gewisser Teilmengen von $X$, $\widetilde{X}$ der Dimension $<n$. $\longsquiggly |\det\nabla \varphi|=$ lokaler Volumenfaktor bei $X$. $A\subset X$ klein nahe $\xi \longsquiggly \vol(\varphi(A))\approx|\det\nabla \varphi(\xi)|\vol(A)$\\
+\\
+\textit{Fakt}: $f,g$ Riemannintegrierbar auf $X$ kompakt, so dass $f=g$ ausserhalb einer Teilmenge der Dimension $<n \Rightarrow \int\limits_Xf \;d\vol=\int\limits_X g \;d\vol$. \\
+\\
+\textit{Satz}: Für jede integrierbare Funktion $f$ auf $X$ ist $f\circ\varphi$ integrierbar und \\
+$\int\limits_Xf \;d\vol_n=\int\limits_{\widetilde{X}}(f\circ\varphi)\cdot|\det\nabla\varphi| \;d\vol_n$ \\
+\\
+\textit{Fall $n=1$}: $X=[a,b] \quad\widetilde{X}=[\widetilde{a},\widetilde{b}] \quad \varphi:\widetilde{X}\to X$ bijektiv. \\
+$\begin{array}{lll}
+  \varphi \nearrow &\iff \varphi'\geq 0 &\iff |\det\nabla\varphi|=\varphi' \\
+  \varphi \searrow &\iff \varphi'\leq 0 &\iff |\det\nabla\varphi|=-\varphi' \\
+\end{array}$ \\
+$\int\limits_a^bf(x) \;dx = \int\limits_{\widetilde{a}}^{\widetilde{b}}f(\varphi(\widetilde{x}))\left\{\begin{array}{ll}
+    +\varphi'(\widetilde{x}) & \;\text{falls}\; \varphi \nearrow \\
+    -\varphi'(\widetilde{x}) & \;\text{falls}\; \varphi \searrow
+  \end{array}\right\} \;d\widetilde{x}$ \\
+$\int\limits_a^bf(x) \;dx = \int\limits_{\varphi^{-1}(a)}^{\varphi^{-1}(b)}f(\varphi(\widetilde{x}))\varphi'(\widetilde{x}) \;d\widetilde{x}$ \\
+\\
+\textit{Spezialfall}: $\varphi(\widetilde{x}):=\nu\in\setR^n+\overbrace{A}^{\mathclap{n\times n\text{-Matrix}}}\widetilde{x} \Rightarrow \nabla\varphi=A$ \\
+$\int\limits_{\varphi(\widetilde{X})}f(x) \;d\vol_n(x)=\int\limits_{\widetilde{X}}f(\nu+A\widetilde{x})|\det A| \;d\vol_n(\widetilde{x})$ \\
+\\
+\\
+\textit{Spezialfall}: Polarkoordinaten \\
+$f:[0,\infty[\times[0,2\pi]\to\setR, \;\colvec{2}{r}{\varphi}\mapsto\colvec{2}{r\cos\varphi}{r\sin\varphi} \quad \det\nabla f=\nu \Rightarrow \forall \widetilde{X}\subset[0,\infty[\times[0,2\pi] \;\text{kompakt}$ \\
+$\Rightarrow \int\limits_{f(\widetilde{X})}g\colvec{2}{x}{y} \;d\vol\colvec{2}{x}{y}= \int\limits_{\widetilde{X}}g\left(f\colvec{2}{r}{\varphi}\right)r \;d\vol\colvec{2}{r}{\varphi}$ \\
+\textit{d.h.} $\int\limits_{f(\widetilde{X})}\int g\colvec{2}{x}{y} \;dxdy =\int\limits_{\widetilde{X}}\int g\colvec{2}{r\cos\varphi}{r\sin\varphi}r \;drd\varphi$ \quad\quad \underline{``$dxdy$''=''$rdrd\varphi$''} \\
+\\
+\textit{Beispiel}: $\widetilde{X}=[0,R]\times[0,2\pi] \Rightarrow f(\widetilde{X})=\text{Kreisscheibe vom Radius}\; R $ \\
+$\Rightarrow \vol(f(\widetilde{X}))=\int\limits_{f(\widetilde{X})}1 \;dxdy =\int\limits_0^R\int\limits_0^{2\pi}1r \;d\varphi dr = 2\pi\int\limits_0^Rdr=2\pi\frac{R^2}{2}=\pi R^2$
+
+\end{document}

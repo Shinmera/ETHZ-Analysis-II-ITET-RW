@@ -1,0 +1,105 @@
+\documentclass[12pt,a4paper,titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[top=3cm, bottom=3cm, left=2cm, right=2cm]{geometry}
+\usepackage{textcomp}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{fix-cm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{mdwlist}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{datetime}
+\usepackage[perpage,para,bottom,marginal]{footmisc}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage[cmtip,all]{xy}
+\newdateformat{dmny}{\monthname[\THEMONTH] \THEYEAR}
+\newdateformat{dyo}{\THEYEAR}
+\setlength{\headheight}{30pt}
+\pagestyle{fancy}
+
+\author{Nicolas Hafner}
+\lhead{Nicolas Hafner}
+\title{Analysis II}
+\chead{Analysis II}
+\rhead{Zürich, \dmny\today}
+\cfoot{\thepage\ / \pageref{LastPage}}
+\lfoot{\copyright \dyo\today TymoonNET/NexT}
+\date{\d_mny\today}
+
+\newcommand{\longsquiggly}{\xymatrix{{}\ar@{~>}[r]&{}}}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\renewcommand{\arg}{\operatorname{arg}}
+\renewcommand{\d}{\partial}
+\newcommand{\arsinh}{\operatorname{arsinh}}
+\newcommand{\arcosh}{\operatorname{arcosh}}
+\newcommand{\artanh}{\operatorname{artanh}}
+\newcommand{\setC}{\mathbb{C}}
+\newcommand{\setR}{\mathbb{R}}
+\newcommand{\setZ}{\mathbb{Z}}
+\newcommand{\setN}{\mathbb{Z}^{\geq0}}
+\newcommand{\Graph}{\operatorname{Graph}}
+
+\begin{document}	
+\begin{center}{\bfseries\Huge Analysis II - 2014.03.17}\end{center}
+\textit{Erinnerung}: Kettenregel. $\frac{d}{dt}f(g_1(t),g_2(t))=\frac{\d f}{\d x_1}\frac{dg_1}{dt}+\frac{\d f}{\d x_2}\frac{dg_2}{dt}$ \\
+$m:\setR^2\to\setR,\; (x,y)\mapsto xy \Rightarrow \frac{d}{dt}(g_1(t)g_2(t))=g_2g_1'+g_1g_2'$ \\
+\\
+\textit{Ableitung unter dem Integral}: \textit{Satz}: Sei $f(x,t)$ stetig diff'bar, und seien $a(t),b(t)$ diff'bar. Dann ist $t\mapsto\Psi(t):=\int_{a(t)}^{b(t)}f(x,t) \;dx$ diff'bar mit
+$$\Psi'(t)=b'(t)f(b(t),t)-a'(t)f(a(t),t)+\int\limits_{a(t)}^{b(t)}\frac{\d f}{\d t}(x,t) \;dx$$
+\textit{Beweis}: $\Psi(\alpha,\beta,t)=\int_\alpha^\beta f(x,t) \;dx$ ist diff'bar. Setze Kettenregel ein. \\
+\\
+\textit{Beispiel}: $\int_0^\infty \frac{\sin x}{x} \;dx = \frac{\pi}{2}$ \\
+\textit{Beweisskizze}: $x\mapsto\frac{\sin x}{x}$ hat stetige Fortsetzung auf ganz $\setR$ durch $0\mapsto 1$. \\
+Betrachte $I_c(t):=\int_0^ce^{-tx}\frac{\sin x}{x} \;dx \quad \overset{\text{Satz}}{\Rightarrow} I_c$ diff'bar und \\
+$\frac{dI_c}{dt}=\int_0^c(-x)e^{-tx}\frac{\sin x}{x} \;dx = -\int_0^ce^{-tx}\sin x \;dx =\frac{-1}{2i}\int_0^c(e^{(i-t)x}-e^{(-i-t)x}) \;dx$ \\
+$= \frac{-1}{2i}\left.(\frac{e^{(i-t)x}}{i-t}-\frac{e^{(-i-t)x}}{-i-t} \;\right|_{x=0}^c = \frac{-1}{2i}(\frac{e^{(i-t)c}-1}{i-t}-\frac{e^{(-i-t)c}-1}{-i-t}) = \frac{e^{-tc}}{1+t^2}(\cos c+t\sin c)-\frac{1}{1+t^2}$ \\
+$\Rightarrow I_c(t)-I_c(0)=\int_0^t\frac{dI_c}{dt} \;dt = \int_0^t\frac{e^{-tc}}{1+t^2}(\cos c+t\sin c) \;dt-\int_0^t\frac{1}{1+t^2} \;dt \Rightarrow |\int_0^t" \;dt|\leq \int_0^te^{-ct}{dt}\leq\frac{1}{c}$ \\
+$\Rightarrow \lim\limits_{c\to\infty}(I_c(t)-I_c(0))=-\int_0^t\frac{dt}{1+t^2}=-\arctan t$ \\
+\textit{D.h.} $\int_0^\infty e^{-tx}\frac{\sin x}{x} \;dx-\int_0^\infty \frac{\sin x}{x} \;dx = -\arctan t \quad\quad t\to\infty: \to-\frac{\pi}{2}$ \\
+Da das erste Integral nach $0$ geht, kann geschlossen werden, dass $\int_0^\infty \frac{\sin x}{x} \;dx=\frac{\pi}{2}$ 
+\section*{Höhere Ableitungen}
+\textit{Definition}: Eine Funktion $f(x_1..x_n)$ heisst $(k+1)$-mal diff'bar, wenn sie diff'bar ist und jedes $\frac{\d f}{\d x_i}(x_1..x_n)\;$ $k$-mal diff'bar ist. Dito für stetig diff'bar. \\
+\\
+Zweite Ableitungen: $\frac{\d}{\d x_j}(\frac{\d f}{\d x_i})=\frac{\d^2 f}{\d x_j\d x_i}$ \\
+\textit{Abkürzung}: $f_{x_i}=\frac{\d f}{\d x_i},\quad f_{x_ix_j}=\frac{\d^2 f}{\d x_j\d x_i},\quad f_{x_ix_jx_k}=...$ \\
+Also ist $f$ $k$-mal stetig diff'bar, falls $f$ $k$-mal diff'bar ist und $\frac{\d^k f}{\prod_{n=1}^k\d_{i_n}}$ stetig ist für alle $i_1..i_k\in{1..n}$ \\
+\\
+Sei $f(x,y)$ beliebig oft diff'bar. Taylor bezüglich $x$ in $x_0$: \\
+$f(x,y)=(\sum_{i=0}^k\frac{\d^if}{\d x^i}(x_0,y)\frac{(x-x_0)^i}{i!})+\frac{\d^{k+1}f}{\d x^{k+1}}(\xi,y)\frac{(x-x_0)^{k+1}}{(k+1)!}$ \\
+At this point he's expanding the first factor of the sum, I think? Anyway, he writes: \\
+$\sum_{j=0}^{k-i}\frac{\d^j}{\d y^j}(\frac{\d^if}{\d x^i}(x_0,y_0)\frac{(y-y_0)^j}{j!}+\frac{\d^{k-i+1}}{\d y^{k-i+1}}(\frac{\d f}{\d x^i})(x_0,\eta_i)\frac{(y-y_0)^{k-i+1}}{(k-i+1)!}$ \\
+$\Rightarrow f(x,y)=\left.\begin{array}{l}
+    \sum_{\substack{i,j\geq 0 \\ i+j\leq k}}\frac{\d^{i+j}f}{\d y^j\d x^i}(x_0,y_0)\frac{(x-x_0)^i}{i!}\frac{(y-y_0)^j}{j!} + \\
+    \sum_{0\leq i\leq k}\frac{\d^{k+1}}{\d y^{k-i+1}\d x^i}(x_0,\eta_i)\frac{(x-x_0)^i}{i!}\frac{(y-y_0)^{k-i+1}}{(k-i+1)!} + \\
+    \frac{\d^{k+1}f}{\d x^{k+1}}(\xi,y)\frac{(x-x_0)^{k+1}}{(k+1)!}
+\end{array}\right\} \text{Erster Summand}\;+O(\left|(x-x_0,y-y_0)\right|^{k+1})$ \\
+\\
+\textit{Satz}: Ist $f(x,y)$ $k$-mal diff'bar, so gilt:
+$$f(x,y)=\sum_{\substack{i,j\geq 0 \\ i+j\leq k}}\frac{\d^kf}{\d y^j\d x^i}(x_0,y_0)\frac{(x-x_0)^i}{i!}\frac{(y-y_0)^j}{j!}+o(\left|(x-x_0,y-y_0)\right|^k)$$ \\
+\\
+\textit{Satz}: Für jede $k$-mal stetig diff'bare Funktion ist jede $k$-te Ableitung von der Reihenfolge unabhängig. \\
+\\
+\textit{Beispiel}: $r(x_1..x_n):=\sqrt{\sum_{l=1}^n x_l^2}$ ist beliebig oft diff'bar auf $\setR^n_{\setminus\{(0..0)\}}$ \\
+$\frac{\d r}{\d x_i}=\frac{x_i}{\sqrt{\sum_{l=1}^n x_l^2}}=\frac{x_i}{r} \quad i\neq j\Rightarrow \frac{\d^2r}{\d x_j\d x_i}=\frac{\d}{\d x_k}(\frac{x_i}{r})=-\frac{x_i}{r^2}\frac{\d r}{\d x_k}=-\frac{x_ix_j}{r^3} \quad i=j\Rightarrow \frac{\d^2r}{\d x_i}=..=\frac{r^2-x_i^2}{r^3}$ \\
+\\
+$\longsquiggly$ \textit{Matrix}: \\
+$$\left(\frac{\d^2r}{\d x_i\d x_j}\right)=\begin{pmatrix}
+  \frac{r^2-x_1^2}{r^3} & \hdots & \frac{-x_1x_n}{r^3} \\
+  \vdots & \ddots & \vdots \\
+  \frac{-x_nx_1}{r^3} & \hdots & \frac{r^2-x_n^2}{r^3}
+\end{pmatrix}$$
+\end{document}

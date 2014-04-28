@@ -1,0 +1,156 @@
+\documentclass[12pt,a4paper,titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[top=3cm, bottom=3cm, left=2cm, right=2cm]{geometry}
+\usepackage{textcomp}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{fix-cm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{mdwlist}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{datetime}
+\usepackage[perpage,para,bottom,marginal]{footmisc}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage[cmtip,all]{xy}
+\newdateformat{dmny}{\monthname[\THEMONTH] \THEYEAR}
+\newdateformat{dyo}{\THEYEAR}
+\setlength{\headheight}{30pt}
+\pagestyle{fancy}
+
+\author{Nicolas Hafner}
+\lhead{Nicolas Hafner}
+\title{Analysis II}
+\chead{Analysis II}
+\rhead{Zürich, \dmny\today}
+\cfoot{\thepage\ / \pageref{LastPage}}
+\lfoot{\copyright \dyo\today TymoonNET/NexT}
+\date{\d_mny\today}
+
+\newcommand{\longsquiggly}{\xymatrix{{}\ar@{~>}[r]&{}}}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\renewcommand{\arg}{\operatorname{arg}}
+\renewcommand{\d}{\partial}
+\newcommand{\arsinh}{\operatorname{arsinh}}
+\newcommand{\arcosh}{\operatorname{arcosh}}
+\newcommand{\artanh}{\operatorname{artanh}}
+\newcommand{\setC}{\mathbb{C}}
+\newcommand{\setR}{\mathbb{R}}
+\newcommand{\setZ}{\mathbb{Z}}
+\newcommand{\setN}{\mathbb{Z}^{\geq0}}
+\newcommand{\Graph}{\operatorname{Graph}}
+
+\newcount\colveccount
+\newcommand*\colvec[1]{
+  \global\colveccount#1
+  \begin{pmatrix}
+    \colvecnext
+  }
+  \def\colvecnext#1{
+    #1
+    \global\advance\colveccount-1
+    \ifnum\colveccount>0
+    \\
+    \expandafter\colvecnext
+    \else
+  \end{pmatrix}
+  \fi
+}
+
+\begin{document}	
+\begin{center}{\bfseries\Huge Analysis II - 2014.04.03}\end{center}
+\textit{Erinnerung}: $U\subset\setR^n\overset{f}{\to}\setR^m$ diff'bar in $\xi\in U \iff f(x)=f(\xi)+\underbrace{\nabla f(\xi)}_{\mathclap{\substack{\text{Funktionalmatrix} \\ \text{Jacobi-Matrix}}}}\overbrace{(x-\xi)}^{\mathclap{\text{Spaltenvektor}}}+o(|x-\xi|)$ für $x\to\xi$. \\
+\\
+\textit{Vergleich}: $m=1$, $f$ zwei mal stetig diff'bar \\
+$\longsquiggly f(x)=f(\xi)+\nabla f(\xi)(x-\xi)+\frac{1}{2}(x-\xi)^T\underbrace{\nabla^2f(\xi)}_{\mathclap{\text{Hesse-Matrix}}}(x-\xi)+o(|x-\xi|^2)$ \\
+\\
+\textit{Definition}: $f$ ist regulär in $\xi$ wenn $\operatorname{Rang}(\nabla f(\xi))=\min(n,m)$ ist. \\
+\\
+\textit{Beispiel}: $f:\setR^2\to\setR^3,\colvec{2}{r}{t}\mapsto\colvec{3}{r\cos t}{r\sin t}{t}$ \\
+$\nabla f=\begin{pmatrix}
+  \cos t & -r\sin t \\
+  \sin t & r\cos t \\
+  0 & 1
+\end{pmatrix} \Rightarrow \left.\begin{array}{l}
+  f \;\text{überall regulär} \\
+  f \;\text{injektiv} \\
+\end{array}\right\}\Rightarrow \operatorname{Bild}(f)$ überall reguläre Fläche. \\
+\\
+\\
+\textit{Satz}: Seien $X\subset\setR^n\overset{f}{\to}Y\subset\setR^m\overset{g}{\to}Z\subset\setR^l$ dann ist $g\circ f$ diff'bar und \\
+$\nabla(g\circ f)(\xi)=\underbrace{\nabla g}_{\mathclap{n\times m\text{-matrix}}}(f(\xi))\underbrace{\nabla f}_{\mathclap{m\times l\text{-matrix}}}(\xi)$. Dies ist die \emph{Kettenregel}. \\
+\\
+\textit{Beweis}:
+\begin{align*}
+  g(f(x)) &=g(f(\xi)+\nabla f(\xi)(x-\xi)+o(|x-\xi|)) = \\
+  &= g(f(\xi))+\nabla g(f(\xi) (\nabla f(\xi)(x-\xi)+o(|x-\xi|)) + o(|\nabla f(\xi)(x-\xi)+o(|x-\xi|)) \\
+  &= g(f(\xi))+(\nabla g(f(\xi))\nabla f(\xi))(x-\xi)+o(|x-\xi|)
+\end{align*} \\
+\\
+\textit{Beispiel}: $\begin{array}{l}
+  f:\colvec{2}{r}{\varphi}\mapsto\colvec{2}{r\cos\varphi}{r\sin\varphi} \\
+  g:\colvec{2}{x}{y}\mapsto\colvec{2}{\sqrt{x^2+y^2}}{\arg(x+iy)}
+\end{array} \Rightarrow
+\begin{array}{ll}
+  \nabla f=\begin{pmatrix}
+    \cos\varphi & -r\sin\varphi \\ 
+    \sin\varphi & r\cos\varphi 
+  \end{pmatrix} \\
+  \nabla g=\begin{pmatrix}
+    \frac{x}{r} & \frac{y}{r} \\ 
+    \frac{-y}{r} & \frac{x}{r} 
+  \end{pmatrix} & = \begin{pmatrix}
+    \cos\varphi & \sin\varphi \\
+    \frac{-\sin\varphi}{r} & \frac{\cos\varphi}{r}
+  \end{pmatrix}
+\end{array}\\
+\left.\begin{array}{l}
+  f\circ g=id \\
+  g\circ f=id
+\end{array}\right\}\Rightarrow\left\{\begin{array}{l}
+  \nabla f\nabla g=\nabla id \\
+  \nabla g\nabla f=\nabla id
+\end{array}\right\}=\begin{pmatrix} 1&0\\0&1 \end{pmatrix}$ \\
+\\
+\newpage
+\textit{Nachtrag} zur Kettenregel: $f,g$ $k$-mal stetig diff'bar $\Rightarrow g\circ f$ dito. \\
+\\
+\textit{Satz}: Seien $X,Y\subset\setR^n$ offen, $f:X\to Y$ $k$-mal stetig diff'bar, $\xi\in X$ und $\eta:=f(\xi)$.
+\begin{enumerate}[label=(\alph*)]
+  \item Ist $f$ invertierbar unf $f^{-1}$ diff'bar, so ist $\nabla f(x)$ invertierbar und $\nabla (f^{-1})(f(x)))=(\nabla f(x))^{-1}$. Ausserdem ist dann $g$ ebenfalls $k$-mal stetig diff'bar.
+
+  \item Ist $\nabla f(\xi)$ invertierbar, so existieren offene $U\subset X$ und $V\subset Y$ mit $\xi\in U$ und $\eta\in V$, so dass $f$ eine bijektive Abbildung $f\mid U:U\to V$ induziert deren Inverse (a) erfüllt.
+  \end{enumerate}
+.\\
+\textit{Beispiel}: $f:\setR\to\setR\; x\mapsto x^3$ bijektiv, aber $f^{-1}(y)=\sqrt[3]{y}$ in $y=0$ nicht diff'bar. \\
+\\
+\textit{Zu (a)}: Kettenregel: $f^{-1}\circ f=id \Rightarrow (\nabla f^{-1})(f(x))\nabla f(x)=\nabla (f^{-1}\circ f)(x)=\nabla (id)(x)=I_n$ \\
+\\
+\textit{Zu (b)}: $\nabla f(\xi)$ invertierbar $\iff \overbrace{\det\nabla f(\xi)}^{\text{stetig}}\neq 0 $\\
+$\iff \det\nabla f(x) \neq 0$ in der Nähe von $\xi \iff \nabla f(x)$ invertierbar nahe $\xi$. \\
+\\
+\textit{Beispiel}: $f:\setC\to\setC,\; z\mapsto z^2\quad \setR^2\to\setR^2,\colvec{2}{x}{y}\mapsto\colvec{2}{x^2-y^2}{2xy} \Rightarrow \nabla f=\begin{pmatrix} 2x & -2y \\ 2y & 2x \end{pmatrix} $ \\
+$\det\nabla f=4(x^2+y^2)=0 \iff x=y=0$ \\
+\\
+\textit{Definition}: $\det\nabla f$ heisst \emph{Funktionaldeterminante}. \\
+\\
+\textit{Geometrische Bedeutung}: $f(x)=\overbrace{f(\xi)}^{\mathclap{\text{Translation}}}+\overbrace{\nabla f(\xi)(x-\xi)}^{\mathclap{\text{Koordinatenwchsel}}}+o(|x-\xi|)$ \\
+$\nabla f(\xi)$ bildet einen Quader mit Kanten $h_ie_i$ auf einem Raumspat mit Kanten $\nabla f(\xi)\cdot h_ie_i$ ab. Das Volumen des Bilds ist $\det(\nabla f(\xi))\cdot h_1..h_n$. $\quad\operatorname{vol}(f(Q))=|\det(\nabla f(\xi))|\cdot\operatorname{vol}(Q)$ \\
+\\
+\textit{Allgemein}: $|\det(\nabla f(\xi))|$ ist der lokale Volumenfaktor von $f$ bei $\xi$, das heisst für jedes $\epsilon>0$ und jede hinreichend gute Teilmenge $A\subset X\cap B_\epsilon(\xi)$ gilt: $\operatorname{vol}(f(A))=|\det(\nabla f(\xi))|\cdot\operatorname{vol}(A)+o(\epsilon)$
+
+\end{document}

@@ -1,0 +1,107 @@
+\documentclass[12pt,a4paper,titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[top=3cm, bottom=3cm, left=2cm, right=2cm]{geometry}
+\usepackage{textcomp}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{fix-cm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{mdwlist}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{datetime}
+\usepackage[perpage,para,bottom,marginal]{footmisc}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage[cmtip,all]{xy}
+\newdateformat{dmny}{\monthname[\THEMONTH] \THEYEAR}
+\newdateformat{dyo}{\THEYEAR}
+\setlength{\headheight}{30pt}
+\pagestyle{fancy}
+
+\author{Nicolas Hafner}
+\lhead{Nicolas Hafner}
+\title{Analysis II}
+\chead{Analysis II}
+\rhead{Zürich, \dmny\today}
+\cfoot{\thepage\ / \pageref{LastPage}}
+\lfoot{\copyright \dyo\today TymoonNET/NexT}
+\date{\d_mny\today}
+
+\newcommand{\longsquiggly}{\xymatrix{{}\ar@{~>}[r]&{}}}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\renewcommand{\arg}{\operatorname{arg}}
+\newcommand{\arsinh}{\operatorname{arsinh}}
+\newcommand{\arcosh}{\operatorname{arcosh}}
+\newcommand{\artanh}{\operatorname{artanh}}
+
+\begin{document}	
+\begin{center}{\bfseries\Huge Analysis II - 2014.02.27}\end{center}
+\textit{Beispiel}: $y'=x^3-xy$ zugehörige homogene Gleichung: $y_h'=-xy_h \longsquiggly y_h=e^{-x^2/2}c$ \\
+\textit{Ansatz}: $y=u(x)e^{-x^2/2} \longsquiggly y'=u'e^{-x^2/2}+u(-x)e^{-x^2/2} \longsquiggly x^3-xy=x^3-xue^{-x^2/2}$ \\
+$\Rightarrow u'e^{-x^2/2}=x^3 \Rightarrow u'=x^3e^{x^2/2} \Rightarrow u=\int x^3e^{x^2/2}dx=\int 2ze^zdz=2ze^z-\int2e^zdz $ \\
+$=2ze^2-2e^z+c=x^2e^{x^2/2}-2e^{x^2/2}+c \Rightarrow y=x^2-2+ce^{-x^2/2}$ \\
+\\
+\textit{Beispiel}: $y'+\frac{y}{x}=\sqrt{x}$ homogen: $y_h'=-\frac{y_h}{x} \longsquiggly y_h=\frac{c}{x}$ \\
+\textit{Ansatz}: $y=\frac{u}{x} \Rightarrow y'=\frac{u'}{x}-\frac{u}{x^2} \longsquiggly \sqrt{x}-\frac{y}{x}=\frac{u'}{x}-\frac{u}{x^2} \Rightarrow \frac{u'}{x}=\sqrt{x} \Rightarrow u'=x^{3/2} \Rightarrow u=\frac{x^{5/2}}{\frac{5}{2}}+c$ \\
+$\Rightarrow y=\frac{2x^{3/2}}{5}+\frac{c}{x}$
+
+\section*{Konstante Koeffizienten}
+$$L:=\frac{d^n}{dx^n}+a_1\frac{d^{n-1}}{dx^{n-1}}+..+a_{n-1}\frac{d}{dx}+a_n \;\text{für}\; a_1..a_n \;\text{konstant.}$$
+\textit{Fakt}: Der Raum der Lösungen von $Ly=0$ für Funktionen $y$ auf $\mathbb{R}$ hat Dimension $n$.\\
+\\
+\textit{Definition}: Das \emph{charakteristische Polynom} von $L$ ist $f_L(\lambda):=\lambda^n+a_1\lambda^{n-1}+..+a_{n-1}\lambda+a_n$. \\
+\\
+\textit{Fakt}: Für jedes $\lambda\in\mathbb{C}$ ist $y=e^{\lambda x}$ eine Lösung von $Ly=0$ $\iff f_L(\lambda)=0$ \\
+\textit{Denn}: $\frac{d^k}{dx^k}(e^{\lambda x})=\lambda^k e^{\lambda x} \Rightarrow L(e^{\lambda x})=\lambda^ne^{\lambda x}+a_1\lambda^{n-1}e^{\lambda x}+..+a_ne^{\lambda x}=f_L(\lambda)e^{\lambda x}$ \\
+\\
+\textit{Fakt}: Die Funktionen $x\mapsto e^{\lambda x}$ für verschiedene $\lambda$ sind linear unabhängig. \\
+\textit{Folge}: Hat das Polynom $f_L$ $n$ verschiedene Nullstellen $\lambda_1..\lambda_n\in\mathbb{C}$, so bilden $e^{\lambda_i x}$ ein System von Fundamentallösungen und die allgemeine Lösung von $Ly=0$ lautet $\sum c_ie^{\lambda_i x}$ \\
+\\
+\textit{Beispiel}: $y'+3y=0 \longsquiggly \lambda+3=0 \Rightarrow $ Eigenwert $\lambda=-3 \longsquiggly y=ce^{-3x}$\\
+\\
+\textit{Beispiel}: $\frac{d^2y}{dx^2}-6\frac{dy}{dx}+8y=0 \longsquiggly \lambda^2-6\lambda+8=0 \Rightarrow (\lambda-2)(\lambda-4)=0 \longsquiggly y=ce^{2x}+de^{4x}$ \\
+\\
+\textit{Beispiel}: $y''+\omega^2y=0,\;\omega>0 \longsquiggly \lambda^2+\omega^2=0 \Rightarrow \lambda=\pm\omega\cdot i$ \\
+$\longsquiggly y=ce^{\omega ix}+de^{-\omega ix},\; c,d\in\mathbb{C} = (c_1+c_2i)(\cos\omega x+i\sin\omega x)+(d_1+d_2i)(\cos\omega x-i\sin\omega x)$ \\
+$\Rightarrow$ Reelle Fundamentallösungen $\cos\omega x$, $\sin\omega x \Rightarrow $ allg. reelle Lsg: $a\cos\omega x+b\sin\omega x,\; a,b\in\mathbb{R}$ \\
+\\
+\textit{Definition}: Die Nullstellen von $f_L$ heissen \emph{Eigenwerte} von $L$. \\
+\\
+\textit{Fakt}: \begin{enumerate}[label=(\alph*)]
+\item $(\frac{d}{dx}-\lambda)(x^ke^{\lambda x})=kx^{k-1}e^{\lambda x}$
+\item $L(x^ke^{\lambda x})=0$ genau dann, wenn $\lambda$ ein mindestens $k+1$ facher Eigenwert ist.
+\item Sonst ist $L(x^ke^{\lambda x})=(\text{Polynom vom Grad}\; k-m)e^{\lambda m}$ wenn $\lambda$ Multiplizität $m\leq k$ hat.
+\end{enumerate}
+\textit{Denn}: $f_L(T)=\prod\limits_{j=1}^n(T-\lambda_j) \Rightarrow L=f_L(\frac{d}{dx})=\prod\limits_{j=1}^n(\frac{d}{dx}-\lambda_j)$ \\
+\\
+\textit{Fakt}: Die Funktionen $x\mapsto x^ke^{\lambda x}$ für alle $k\in\mathbb{Z}^{\geq0},\;\lambda\in\mathbb{C}$ sind linear unabhängig. \\
+\\
+\textit{Satz}: Seien $\lambda_1..\lambda_k\in\mathbb{C}$ die verschiedene Eigenwerte mit Multiplizitäten $m_1..m_k\geq 1$, dann lautet die allgemeine Lösung von $Ly=0$: $\sum_{j=1}^k\sum_{l=0}^{mj-1} c_{jl}x^le^{\lambda x}$ \\
+\\
+\textit{Beispiel}: $y''''+2y''-8y'+5y=0 \longsquiggly \lambda^4+2\lambda^2-8\lambda+5=0 \Rightarrow (\lambda-1)^2(\lambda^2+2\lambda+5)=0$ \\
+$\Rightarrow \lambda=\{1,1,-1\pm2i\} \longsquiggly ae^x+bxe^x+ce^{(-1+2i)x}+de^{(-1-2i)x},\;c,d\in\mathbb{C} $ \\
+$\Rightarrow ae^x+bxe^x+c'e^{-x}\cos 2x+d'e^{-x}\sin^2x,\;a,b,c',d'\in\mathbb{R}$ \\
+\\
+\textit{Fakt}: Hat $L$ reelle Koeffizienten, so entspricht jedes Paar nicht reeller Eigenwerte (der Vielfachheit $>l$) $\mu\pm i\nu$ für $\mu,\nu\in\mathbb{R}$ den reellen Fundamentallösungen $x^le^{\mu x}\cos\nu x, \;x^le^{\mu x}\sin\nu x$
+\end{document}
+
+
+
+
+
+
+
+
