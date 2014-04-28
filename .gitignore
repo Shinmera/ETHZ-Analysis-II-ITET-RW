@@ -1,0 +1,7 @@
+auto/
+.directory
+*.aux
+*.log
+*.synctex.gz
+*.out
+.git
