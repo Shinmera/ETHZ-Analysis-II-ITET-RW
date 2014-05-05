@@ -1,0 +1,133 @@
+\documentclass[12pt,a4paper,titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[top=3cm, bottom=3cm, left=2cm, right=2cm]{geometry}
+\usepackage{textcomp}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{fix-cm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{mdwlist}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{datetime}
+\usepackage[perpage,para,bottom,marginal]{footmisc}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage[cmtip,all]{xy}
+\newdateformat{dmny}{\monthname[\THEMONTH] \THEYEAR}
+\newdateformat{dyo}{\THEYEAR}
+\setlength{\headheight}{30pt}
+\pagestyle{fancy}
+
+\author{Nicolas Hafner}
+\lhead{Nicolas Hafner}
+\title{Analysis II}
+\chead{Analysis II}
+\rhead{Zürich, \dmny\today}
+\cfoot{\thepage\ / \pageref{LastPage}}
+\lfoot{\copyright \dyo\today TymoonNET/NexT}
+\date{\d_mny\today}
+
+\newcommand{\longsquiggly}{\xymatrix{{}\ar@{~>}[r]&{}}}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\renewcommand{\arg}{\operatorname{arg}}
+\renewcommand{\d}{\partial}
+\newcommand{\arsinh}{\operatorname{arsinh}}
+\newcommand{\arcosh}{\operatorname{arcosh}}
+\newcommand{\artanh}{\operatorname{artanh}}
+\newcommand{\setC}{\mathbb{C}}
+\newcommand{\setR}{\mathbb{R}}
+\newcommand{\setZ}{\mathbb{Z}}
+\newcommand{\setN}{\mathbb{Z}^{\geq0}}
+\newcommand{\Graph}{\operatorname{Graph}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\diam}{\operatorname{diam}}
+
+\newcount\colveccount
+\newcommand*\colvec[1]{
+  \global\colveccount#1
+  \begin{pmatrix}
+    \colvecnext
+  }
+  \def\colvecnext#1{
+    #1
+    \global\advance\colveccount-1
+    \ifnum\colveccount>0
+    \\
+    \expandafter\colvecnext
+    \else
+  \end{pmatrix}
+  \fi
+}
+
+\newcommand{\twovec}[2]{\mathop{\left(\substack{#1 \\ #2}\right)}}
+\newcommand{\threevec}[3]{\mathop{\left(\substack{#1 \\ #2 \\ #3}\right)}}
+
+\begin{document}	
+\begin{center}{\bfseries\Huge Analysis II - 2014.05.05}\end{center}
+\textit{Erinnerung}: $\gamma:[a,b]\to\setR^nC^1 \Rightarrow$ Kurvenlänge $=\int_\gamma1 \;d\vol_1=\int_a^b|\gamma'(t)| \;dt$ \\
+$C=\Graph(g[a,b]\to\setR^n) \Rightarrow \vol_1(C)=\int_a^b\sqrt{1+|g'(t)|^2} \;dt$ \\
+\\
+\textit{Beispiel}: Welche Kurve beschreibt eine homogene Kette? Sei sie der Graph von \\
+$[a,b]\ni x\mapsto y(x)$. \\
+Die Schwerkraft ist $\twovec{0}{-\mu\vol_1(\Graph(y|_{[a,x]}))}$ \\
+Die Zugkraft in $\twovec{x}{y}$ ist $=\twovec{1}{y'}s(x)$ für $s(x)>0$. \\
+Die Zugkraft in $\twovec{a}{y(a)}$ ist $=-\twovec{1}{y'(a)}s(a)$. \\
+\textit{Gleichgewicht:} $\twovec{0}{-\mu l(x)}+\twovec{s(x)}{y'(x)s(x)}-\twovec{s(a)}{y'(a)s(a)}=\twovec{0}{0} \iff \left\{\substack{s(x)-s(a)=0 \\ -\mu l(x)+y'(x)s(x)-y'(a)s(a)=0}\right\}$ \\
+$\iff\left\{\substack{s(x)=s \quad \text{konstant} \\ (y'(x)-y'(a))s=\mu l(x)}\right\} \Rightarrow \frac{d}{dx}: y''(x)s=\mu\frac{d}{dx}(\int_a^x\sqrt{1+y'(\xi)^2} \;d\xi) \iff y''s=\mu\sqrt{1+y'^2}$ \\
+Mit $z:=y'$ ist dies $\iff \frac{dz}{dx}s=\mu\sqrt{1+z^2} \iff \int\frac{dz}{\sqrt{1+z^2}}= \int\frac{\mu}{s} \;dx \iff \arsinh z = \frac{\mu}{s}x+c$ \\
+$\iff y'=z=\sinh(\frac{\mu}{s}x+c) \Rightarrow y=\int\sinh(\frac{\mu}{s}x+c) \;dx = \frac{s}{\mu}\cosh(\frac{\mu}{s}x+c)+c'$ für konst: $c,c',s,\mu$. \\
+Dies ist die \emph{Kettenlinie} (catenary).
+
+\section*{Flächenintegral}
+Sei $B\subset\setR^2$ und $\varphi:B\to\setR^3$ eine $C^1$-Funktion, die ausserhalb einer Teilmenge der Dimension $1$ injektiv ist. $\Rightarrow F:=\varphi(B)$ ist eine parametrisierte Fläche. \\
+\\
+\textit{Umparametrisierung}: $\widetilde{B}\subset\setR^2, \quad\psi:\widetilde{B}\to B \quad C^1$-Funktion die ausserhalb von Teilmengen der Dimension $\leq 1$ bijektiv ist. $\Rightarrow \varphi\circ\psi$ andere Parametrisierung. \\
+$\varphi\twovec{u+\Delta u}{v+\Delta v}=\varphi\twovec{u}{v}+\varphi_u\twovec{u}{v}\Delta u+\varphi_v\twovec{u}{v}\Delta v+o(|\twovec{\Delta u}{\Delta v}|) \longsquiggly $ Kleines Rechteck. Dies ist näherungsweise ein Parallelogramm mit Kantenvektoren $\varphi_u\Delta u$ und $\varphi_v\Delta v$. Deren Fläche ist: \\
+$|\varphi_u\times\varphi_u|\Delta u\Delta v = |(\varphi u \Delta u)\times(\varphi_u\Delta v)| = \vol_2(\varphi(R))=|\varphi_u\times\varphi_v|\vol_2(R)+o(|\twovec{\Delta u}{\Delta v}|)$ \\
+\\
+\textit{Definition}: Das Flächenintegal einer Funktion $f$ auf $F$ ist, falls es existiert, definiert durch $\int_Ff \;d\vol_2 := \int_B(f\circ\varphi)\cdot|\varphi_u\times\varphi_v| \;d\vol_2$. Es existiert z.B. wenn $f$ stetig und $B$ kompakt ist. Genauso uneigentliches Integral. \\
+\\
+\textit{Satz}: Dies ist invariant unter Umparametrisiertung.\\
+\\
+\textit{Beweis}:\\
+  Vorherige Definition $=\int_{\widetilde{B}}(f\circ\varphi\circ\xi)\cdot |(\varphi_u\circ\xi)\times(\varphi_v\circ\xi)|\cdot|\det\nabla\xi| \;d\vol_2$ \\
+Zu zeigen: $= \int_B(f\circ\varphi\circ\xi)|(\varphi\circ\xi)_{\widetilde{u}}\times(\varphi\circ\xi)_{\widetilde{v}}| \;d\vol_2$\\
+\\
+\textit{Spezialfall}: Flächeninhalt von $F$: $\vol_2(F)=\int_F1 \;d\vol_2$ \\
+\\
+\textit{Spezialfall}: $F=\Graph(g:B\subset\setR^2\to\setR)$ Nimm $\varphi\twovec{u}{v}:=\threevec{u}{v}{g\twovec{u}{v}} \Rightarrow |\varphi_u\times\varphi_v|=\left|\threevec{1}{0}{g_u}\times\threevec{0}{1}{g_v}\right|$ \\
+$=\left|\threevec{-g_u}{-g_v}{1}\right|=\sqrt{1+g_u^2+g_v^2}$ \\
+\newpage
+\textit{Beispiel}: $F=\Graph(g:\twovec{u}{v}\mapsto u^2-v^2)$ auf $B:=\left\{\twovec{u}{v}\in\setR^2\middle|u^2+v^2\leq R^2\right\}$ \\
+<Bild von einem Kartoffelchip> $\Rightarrow \vol_2(F)=\int\limits_{u^2+v^2\leq R^2}1\underbrace{\sqrt{1+(2u)^2+(-2v)^2}}_{\sqrt{1+4(u^2+v^2)}} \underbrace{\;d\vol_2\twovec{u}{v}}_{dudv=rdrd\varphi}$ \\
+$v\left|\substack{u\cos\varphi \\ v=r\sin\varphi}\right| = \int_{r=0}^R\int_{\varphi=0}^{2\pi}\sqrt{1+4r^2}r \;d\varphi dr = 2\pi\int_0^R\sqrt{1+4r^2}r \;dr = \left.2\pi(1+4r^2)^{\frac{3}{2}}\frac{1}{12}\right|_0^R$ \\
+$ = \frac{\pi}{6}((1+4R^2)^{\frac{3}{2}}-1)$ \\
+\\
+\\
+\textit{Spezialfall}: Rotationsfläche: $g:I\to\setR^{\geq0} \quad C^1-$Funktion $\quad\quad F=\left\{\threevec{x}{y}{z}\middle|\substack{z\in I,\quad x,y\in\setR \\ \sqrt{x^2+y^2}=g(z)}\right\}$ \\
+\\
+Parametrisierung von $F$: $\varphi:I\times[0,2\pi]\to F, \quad\twovec{z}{\alpha}\mapsto\threevec{g(z)\alpha}{g(z)\sin\alpha}{z}$ \\
+$|\varphi_z\times\varphi_\alpha|=\left|\threevec{g'(z)\cos\alpha}{g'(z)\sin\alpha}{1}\times\threevec{-g(z)\sin\alpha}{+g(z)\cos\alpha}{0}\right| = \left|\threevec{-g(z)\cos\alpha}{-g(z)\sin\alpha}{g(z)g'(z)}\right| = g(z)\left|\threevec{-\cos\alpha}{-\sin\alpha}{g'(z)}\right| = g(z)\sqrt{1+g'(z)^2}$ \\
+$\Rightarrow \vol_2(F)=\int\limits_{\mathclap{I\times[0,2\pi]}}g(z)\sqrt{1+g'(z)^2} \;d\vol_2\twovec{z}{\alpha} = \int_I2\pi g(z)\sqrt{1+g'(z)^2} \;dz$ \\
+\\
+\\
+\textit{Beispiel}: $F=\left\{\threevec{x}{y}{z}\in\setR^3\middle| x^2+y^2+z^2=R^2\right\} \quad I=[-R,R],\quad g(z)=\sqrt{R^2-z^2}$ \\
+$\Rightarrow g'(z)=(R^2-z^2)^{-\frac{1}{2}}\frac{1}{2}(-2z)=\frac{-z}{\sqrt{R^2-z^2}}$ \\
+$\Rightarrow 1+g'(z)^2=1+\frac{z^2}{R^2-z^2}=\frac{R^2-z^2+z^2}{R^2-z^2} \Rightarrow \sqrt{1+g'(z)}=\frac{R}{\sqrt{R^2-z^2}}$ \\
+$\Rightarrow \vol_2(F)=\int_{-R}^{+R}2\pi \sqrt{R^2-z^2}\frac{R}{\sqrt{R^2-z^2}} \;dz = \int_{-R}^{+R}2\pi R\;dz = 2\pi R2R = 4\pi R^2$
+
+\end{document}
