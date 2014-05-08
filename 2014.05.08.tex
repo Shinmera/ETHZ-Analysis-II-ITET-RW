@@ -1,0 +1,132 @@
+\documentclass[12pt,a4paper,titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[top=3cm, bottom=3cm, left=2cm, right=2cm]{geometry}
+\usepackage{textcomp}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{fix-cm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{mdwlist}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{datetime}
+\usepackage[perpage,para,bottom,marginal]{footmisc}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage[cmtip,all]{xy}
+\newdateformat{dmny}{\monthname[\THEMONTH] \THEYEAR}
+\newdateformat{dyo}{\THEYEAR}
+\setlength{\headheight}{30pt}
+\pagestyle{fancy}
+
+\author{Nicolas Hafner}
+\lhead{Nicolas Hafner}
+\title{Analysis II}
+\chead{Analysis II}
+\rhead{Zürich, \dmny\today}
+\cfoot{\thepage\ / \pageref{LastPage}}
+\lfoot{\copyright \dyo\today TymoonNET/NexT}
+\date{\d_mny\today}
+
+\newcommand{\longsquiggly}{\xymatrix{{}\ar@{~>}[r]&{}}}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\renewcommand{\arg}{\operatorname{arg}}
+\renewcommand{\d}{\partial}
+\newcommand{\arsinh}{\operatorname{arsinh}}
+\newcommand{\arcosh}{\operatorname{arcosh}}
+\newcommand{\artanh}{\operatorname{artanh}}
+\newcommand{\setC}{\mathbb{C}}
+\newcommand{\setR}{\mathbb{R}}
+\newcommand{\setZ}{\mathbb{Z}}
+\newcommand{\setN}{\mathbb{Z}^{\geq0}}
+\newcommand{\Graph}{\operatorname{Graph}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\diam}{\operatorname{diam}}
+
+\newcount\colveccount
+\newcommand*\colvec[1]{
+  \global\colveccount#1
+  \begin{pmatrix}
+    \colvecnext
+  }
+  \def\colvecnext#1{
+    #1
+    \global\advance\colveccount-1
+    \ifnum\colveccount>0
+    \\
+    \expandafter\colvecnext
+    \else
+  \end{pmatrix}
+  \fi
+}
+
+\newcommand{\twovec}[2]{\mathop{\left(\substack{#1 \\ #2}\right)}}
+\newcommand{\threevec}[3]{\mathop{\left(\substack{#1 \\ #2 \\ #3}\right)}}
+
+\begin{document}	
+\begin{center}{\bfseries\Huge Analysis II - 2014.05.08}\end{center}
+\textit{Erinnerung}: $g:[a,b]\to\setR^{\geq 0}C^1 \quad X=\left\{\threevec{x}{y}{z}\middle|\substack{a\leq z\leq b \\ \sqrt{x^2+y^2}=g(z)}\right\} \Rightarrow \vol_2(F)=\int_a^b2\pi g(z)\sqrt{1+g'(z)^2} \;dz$ \\
+\\
+\textit{Beispiel}: $F=\left\{\threevec{x}{y}{z}\in\setR^3\middle|\substack{z\geq 1 \\ \sqrt{x^2+y^2}=\frac{1}{z}}\right\} \quad g(z)=\frac{1}{z} \quad g'(z)=-\frac{1}{z^2} $ \\
+$\vol_2(F)=\int_1^\infty2\pi\frac{1}{z}\sqrt{1+\frac{1}{z^4}} \;dz \geq 2\pi\int_1^\infty\frac{dz}{z} = \infty \Rightarrow \vol_2(F)=\infty$ \\
+$X=\left\{\threevec{x}{y}{z}\in\setR^3\middle|\substack{z\geq 1 \\ \sqrt{x^2+y^2}\leq\frac{1}{z}}\right\} \Rightarrow \vol_3(X)=\pi$
+
+\section*{Vektorfelder}
+Sei $U\subset\setR^n$ offen\\
+\\
+\textit{Definition}: Eine skalarwertige Funktion auf $U$ heisst \emph{Skalarfeld}, eine vektorwertige Funktion ein \emph{Vektorfeld}. \\
+\\
+Sei $K:U\to\setR^n$ ein Vektorfeld, stetig. \\
+\\
+\textit{Definition}: Eine $C^1$-parametrisierte Kurve $\gamma:[a,b]\to U$ mit $\gamma'=K\circ\gamma$ heisst Feldlinie von $K$. \\
+\\
+\textit{Fakt}: Ist $K$ lokal lipschitzstetig, dann geht durch jeden Punkt von $U$ genau eine maximal ausgedehnte Feldlinie. \\
+\\
+\textit{Bedeutung}: $K$ Strömungsfeld $\Rightarrow \gamma$ Trajektorie eines Teilchens. \\
+$K$ Gradientenfeld $\Rightarrow$ Falllinie. \\
+\\
+\textit{Beispiel}: Konstantes Vektorfeld $K(x)=K_0 \Rightarrow \gamma'(t)=K_0 \Rightarrow \gamma(t)=K_0t+v_0$ \\
+\\
+\textit{Beispiel}: Punktmasse in $\threevec{0}{0}{0} \quad K(x)=-c\frac{x}{|x|^3}$ für konstantes $c>0$. \\
+$\gamma'(t)=-c\frac{\gamma(t)}{|\gamma(t)|^3} \quad \gamma(t)=r(t)\cdot e_0 \quad r'e_0=-c\frac{re_0}{r^3}=-e_0\frac{c}{r^2} \iff \frac{dr}{dt}=-\frac{c}{r^2} $ \\
+$\iff \int r^2\;dr=\int-c \;dt \iff \frac{r^3}{3} = -c(t-t_0) \Rightarrow r=\sqrt[3]{3c(t_0-t)} \quad \gamma(t)=\sqrt[3]{3c(t_0-t)}e_0$ \\
+\\
+\textit{Beispiel}: Homogene Kugel von Radius $R$ erzeugt Gravitationsfeld $K(x)=\left\{\begin{array}{ll}
+    -c\frac{x}{|x|^3} & \quad\text{für}\; |x|\geq R \\
+    -c\frac{x}{R^3} & \quad\text{für}\; |x|\leq R
+  \end{array}\right.$ \\
+$\Rightarrow$ Feldlinien wie im vorigen Beispiel mit anderer Parametrisierung. \\
+\\
+\textit{Beispiel}: Sei $K(x):=\omega\times x$ für $\omega\in\setR^3_{\setminus\{0\}}$ fest. Geschwindigkeitsfeld einer gleichmässigen Rotation um die Achse $\setR\omega$. $|\omega\times x|=|\omega|\cdot(\text{Abstand von}\; x \;\text{zu}\; \setR\omega)$. Feldlinien = Kreise mit Mittelpunkt auf $\setR\omega$ und orthogonal zu $\setR\omega$. \\
+\\
+\textit{Beispiel}: $K(x):=\frac{\omega\times x}{|\omega\times x|^2}$ Z.B: Magnetfeld von einem konstanten elektrischen Strom in $\setR\omega$ erzeugt. Feldlinien wie vorher, anders parametrisiert. \\
+\\
+\textit{Beispiel}: $K\twovec{x}{y}:=\twovec{x-y}{x+y}\frac{1}{\sqrt{x^2+y^2}}$ auf $\setR^2_{\setminus\{\twovec{0}{0}\}}$. Feldlinien? \\
+$\gamma=\twovec{x}{y}=\twovec{r\cos\varphi}{r\sin\varphi} \Rightarrow \gamma'(t)=\twovec{r'\cos\varphi-r\sin\varphi\cdot\varphi'}{r'\sin\varphi+r\cos\varphi\cdot\varphi'} \overset{!}{=} \twovec{\cos\varphi-\sin\varphi}{\cos\varphi+\sin\varphi} = \twovec{r\cos\varphi-r\sin\varphi}{r\cos\varphi+r\sin\varphi}\frac{1}{r} = K$ \\
+$\iff \cos\varphi\twovec{r'}{r\varphi'}+\sin\varphi\twovec{-r\varphi'}{r'}=\cos\varphi\twovec{1}{1}+\sin\varphi\twovec{-1}{1}$ \\
+$\iff\begin{array}{ll}
+  \cos\varphi(\text{1. Zeile})+\sin\varphi(\text{2. Zeile}) & \Rightarrow r'=1 \\
+  \sin\varphi(\text{1. Zeile})-\cos\varphi(\text{2. Zeile}) & \Rightarrow r\varphi'=1
+\end{array}$ \\
+$\Rightarrow r(t)=t-\overbrace{t_0}^{\mathclap{\text{Konstante}}} \quad \varphi'=\frac{1}{r}=\frac{1}{t-t_0} \quad \varphi(t)=\int\frac{dt}{t-t_0} = \log|t-t_0|+c \quad \gamma(t)=(t-t_0)\twovec{\cos(\log|t-t_0|+c)}{\sin(\log|t-t_0|+c)}$ \\
+$\Rightarrow$ logarithmische Spiralen.
+
+\section*{Potentiale}
+Sei $K$ ein Vektorfeld auf $U\subset\setR^n$ offen. \\
+\\
+\textit{Definition}: Ein diff'bares Skalarfeld $f$ auf $U$ mit $K=\nabla f$ oder $(\nabla f)^T$ heisst \emph{Potential} von $K$. Für $n=1$: Stammfunktion.
+
+\end{document}
