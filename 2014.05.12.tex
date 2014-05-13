@@ -1,0 +1,149 @@
+\documentclass[12pt,a4paper,titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[top=3cm, bottom=3cm, left=2cm, right=2cm]{geometry}
+\usepackage{textcomp}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{fix-cm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{mdwlist}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{datetime}
+\usepackage[perpage,para,bottom,marginal]{footmisc}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage[cmtip,all]{xy}
+\newdateformat{dmny}{\monthname[\THEMONTH] \THEYEAR}
+\newdateformat{dyo}{\THEYEAR}
+\setlength{\headheight}{30pt}
+\pagestyle{fancy}
+
+\author{Nicolas Hafner}
+\lhead{Nicolas Hafner}
+\title{Analysis II}
+\chead{Analysis II}
+\rhead{Zürich, \dmny\today}
+\cfoot{\thepage\ / \pageref{LastPage}}
+\lfoot{\copyright \dyo\today TymoonNET/NexT}
+\date{\d_mny\today}
+
+\newcommand{\longsquiggly}{\xymatrix{{}\ar@{~>}[r]&{}}}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\renewcommand{\arg}{\operatorname{arg}}
+\renewcommand{\d}{\partial}
+\newcommand{\arsinh}{\operatorname{arsinh}}
+\newcommand{\arcosh}{\operatorname{arcosh}}
+\newcommand{\artanh}{\operatorname{artanh}}
+\newcommand{\setC}{\mathbb{C}}
+\newcommand{\setR}{\mathbb{R}}
+\newcommand{\setZ}{\mathbb{Z}}
+\newcommand{\setN}{\mathbb{Z}^{\geq0}}
+\newcommand{\Graph}{\operatorname{Graph}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\diam}{\operatorname{diam}}
+
+\newcount\colveccount
+\newcommand*\colvec[1]{
+  \global\colveccount#1
+  \begin{pmatrix}
+    \colvecnext
+  }
+  \def\colvecnext#1{
+    #1
+    \global\advance\colveccount-1
+    \ifnum\colveccount>0
+    \\
+    \expandafter\colvecnext
+    \else
+  \end{pmatrix}
+  \fi
+}
+
+\newcommand{\twovec}[2]{\mathop{\left(\substack{#1 \\ #2}\right)}}
+\newcommand{\threevec}[3]{\mathop{\left(\substack{#1 \\ #2 \\ #3}\right)}}
+
+\begin{document}	
+\begin{center}{\bfseries\Huge Analysis II - 2014.05.12}\end{center}
+\textit{Erinnerung}: Ein diff'bares Skalarfeld $f$ auf $U\subset\setR^n$ offen mit $\nabla f=K$ oder $K^T$ heisst \emph{Potential} von $K$. \\
+\\
+\textit{Sei}: $U=I_1\times..\times I_n$ für Intervalle $I_i$ \\
+\\
+\textit{Fakt}: Ist $K$ stetig diff'bar, so existiert ein Potential genau dann wenn $\forall i,j:\frac{\d K_i}{\d x_j}=\frac{\d K_j}{\d x_i}$ \\
+Denn: $K=(K_1..K_n)=\nabla f \Rightarrow f$ zweimal stetig diff'bar und $K_i=\frac{\d f}{\d x_i} \Rightarrow \frac{\d K_i}{\d x_j}=\frac{\d^2f}{\d x_j\d x_i}=\frac{\d K_j}{\d x_i}$ \\
+$\Rightarrow$ Notwendig. Hinreichend später.
+
+\section*{Explizite Konstruktion}
+Sei $K$ stetig.
+
+$i=1:\;$ "$f=\int K_1 \;dx_1$" \\
+Wähle Stammfunktion $g_1:=\int K_1\;dx_1 \Rightarrow f=g_1+f_1$ wobei $f_1(x)$ von $x_1$ unabhängig ist.
+
+$i=2:\; K_2=\frac{\d f}{\d x_2}=\frac{\d g_1}{\d x_2}+\frac{\d f_1}{\d x_2} \iff \frac{\d f_1}{\d x_2}=K_2-\frac{\d g_1}{\d x_2}$ \\
+Notwendige Bedingung: $K_2-\frac{\d g_1}{\d x_2}$ unabhängig von $x_1$. Wähle eine Stammfunktion \\
+$g_2:=\int(K_2-\frac{\d g_1}{\d x_2}) \;dx_2$ die von $x_1$ unabhängig ist. $\Rightarrow f_1=g_2+f_2$ mit $f_2$ von $x_1$ und $x_2$ unabhängig.
+
+$i=3:\; K_3=\frac{\d f}{\d x_3}=\frac{\d}{\d x_3}(g_1+g_2+f_2)$ \\
+Bedingung: $K_3-\frac{\d g_1}{\d x_3}-\frac{\d g_2}{\d x_3}$ von $x_1$ und $x_2$ unabhängig. \\
+\\
+\textit{Beispiel}: $K=(x^2+xy^2,x^2y-y^2)$ auf $\setR^2$: Wähle $g_1\twovec{x}{y}=\int(x^2+xy^2) \;dx$ \\
+Z.B: $g_1:=\frac{x^3}{3}+\frac{x^2y^2}{2} \longsquiggly K_2-\frac{\d g_1}{\d y}=(x^2y-y^2)-(x^2y)=-y^2 = \frac{\d}{\d y}(-\frac{y^3}{3})$ \\
+Mit $g_2:=\frac{-y^3}{3} \Rightarrow K_2$ besitzt ein Potential, nämlich $f=\frac{x^3}{3}+\frac{x^2y^2}{2}-\frac{y^3}{3}+c$ für jede Konstante $c$. \\
+\\
+\textit{Beispiel}: Für welche $a,b,c\in\setR$ besitzt $K\threevec{x}{y}{z}=(2xy+yz,x^2+xz+z,axy+by+cz)$ ein Potential? \\
+$f:=\int(2xy+yz) \;dx=x^2y+xyz+\underbrace{f_1}_{\mathclap{\text{von}\;x\;\text{unabhängig}}} \Rightarrow x^2+xz+z=\frac{\d f}{\d y}=x^2+xz+\frac{\d f_1}{\d y} \iff \frac{\d f_1}{\d y}=z$ \\
+$f_1=\int z \;dy = yz+\underbrace{f_2}_{\mathclap{\text{von}\;x,y\;\text{unabhängig}}} \Rightarrow axy+by+cz=\frac{\d f}{\d z}=\frac{\d}{\d z}(x^2y+xyz+yz+f_2) = xy+y+\frac{\d f_2}{\d z}$ \\
+$\iff \frac{\d f_2}{\d z}=(a-1)xy+(b-1)y+cz \Rightarrow$ wir brauchen $a=b=1 \Rightarrow $ \\
+$f_2=\int cz\;dz=c\frac{z^2}{2}+\underbrace{f_3}_{\mathclap{\text{von}\;x,y,z\;\text{unabhängig}}}$ Antwort wenn $a=b=1$ ist. Und dann ist $f=x^2y+xyz+yz+\frac{cz^2}{2}+c'$ \\
+\\
+\\
+\textit{Bemerkung}: $K_2-\frac{\d g_1}{\d x_2}$ von $x_1$ unabhängig $\iff \frac{\d}{\d x_1}(K_2-\frac{\d g_1}{\d x_2})=0 \iff \frac{\d K_2}{\d x_1}=\frac{\d}{\d x_2}(\frac{\d g_1}{\d x_1})=\frac{\d K_1}{\d x_2}$ \\
+\\
+\textit{Beispiel}: $K=\text{konstant}\;K_0$ hat Potential $f(x)=K_0\cdot x$ \\
+\\
+\textit{Beispiel}: $-c\frac{x}{|x|^3}$ auf $\setR^3_{\setminus\{0\}}$ hat Potential $f=\frac{c}{|x|}$ \\
+\\
+\textit{Beispiel}: $K=\omega\times x$ für $\omega\in\setR^3_{\setminus\{0\}}$. Nach Drehung ist oBdA $\omega=\threevec{0}{0}{0}$ für $c\neq 0$. \\
+$K\threevec{x_1}{x_2}{x_3}=\threevec{c}{0}{0}\times\threevec{x_1}{x_2}{x_3} = \threevec{0}{-cx_3}{cx_2} \quad \frac{\d K_2}{\d x_3}=\frac{\d}{\d x_3}(-cx_3)=-c \quad \frac{\d K_3}{\d x_2}=\frac{\d}{\d x_2}(cx_2)=+c$ \\
+$\Rightarrow$ besitzt kein Potential. \\
+\\
+\textit{Beispiel}: $K=\frac{\omega\times x}{|\omega\times x|^2}$ oBdA $\omega=\threevec{c}{0}{0} \Rightarrow K=\frac{1}{c(x_2^2+x_3^2)}\threevec{0}{-x_3}{+x_2}$ \\
+$\frac{\d K_1}{\d x_2}=0=\frac{\d K_2}{\d x_1} \quad \frac{\d K_1}{\d x_3}=0=\frac{\d K_3}{\d x_1} \quad \frac{\d K_2}{\d x_3}=\frac{\d K_3}{\d x_2}=\frac{x_3^2-x_2^2}{c(x_2^2+x_3^2)^2}$ \\
+$\Rightarrow$ auf jedem Quader in $\setR^3_{\setminus\setR\omega}$ existiert ein Potential. Lokal tut's $f(x)=\frac{1}{c}\arg(x_2+ix_3)+c'$ \\
+Global existiert \emph{kein} Potential. \\
+\\
+\textit{Bemerkung}: Zu $\setC$: besitzt eine Funktion $f$ eine komplexe Stammfunktion genau dann wenn die Cauchy-Riemannschen DGL. gelten.
+
+\section*{Vektorielles Kurvenintegral}
+Sei $\gamma:[a,b]\to C\subset\setR^n$ eine $C^1$-parametrisierte Kurve. Die überall durch $\gamma'$ definierte Richtung heisst \emph{Orientierung} von $C$. $\gamma$ Weg von $\gamma(a)$ nach $\gamma(b)$. Falls $\gamma(a)=\gamma(b)$ ist, heisst $\gamma$ ein \emph{geschlossener Weg}. \\
+\\
+\textit{Definition}: Eine Umparametrisierung $\psi:[\widetilde{a},\widetilde{b}]\tilde{\to}[a,b]$ bijektiv $C^1$ mit $\psi$ monoton wachsend heisst \emph{orientierungserhaltend}, sonst \emph{orientierungsvertauschend}. \\
+\\
+\textit{Definition}: Seien $f$ eine Funktion auf $C$ und $g$ eine auf einer Umgebung von $C$ definierte Funktion. $(\int_\gamma=\int_C)f \;dg := \int_a^bf(\gamma(t))\cdot (g\circ\gamma)'(t) \;dt$ \\
+\\
+\textit{Satz}: Dies ist invariant unter orientierungserhaltender Umparametrisierung und wechselt das Vorzeichen unter orientierungserhaltender. \\
+\\
+\textit{Definition}: Für ein Vektorfeld $K$ auf $C$ ist $(\int_C=\int_\gamma) K\cdot \;dx:=\int_\gamma(K_1 \;dx_1+..+K_n \;dx_n)$ \\
+$=\int_a^b(K\cdot\gamma)(t)\underbrace{\cdot}_{\mathclap{\text{Skalarprodukt}}}\gamma'(t) \;dt$ \\
+\\
+\textit{Satz}: Voriger Satz genauso. \\
+\\
+\textit{Bemerkung}: Skalares Kurvenintegral $\int_Cf \;d\vol_1=\int_C\cdot f|dx|$
+
+\section*{Integralsatz}
+Für jedes $C^1$ Skalarfeld $f$ auf $U\subset\setR^n$ offen und jeden Weg $\gamma$ in $U$ von $P$ nach $Q$ gilt
+$$\int_\gamma\nabla f\cdot dx = f(Q)-f(P)$$
+\end{document}
