@@ -1,0 +1,134 @@
+\documentclass[12pt,a4paper,titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[top=3cm, bottom=3cm, left=2cm, right=2cm]{geometry}
+\usepackage{textcomp}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{fix-cm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{mdwlist}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{datetime}
+\usepackage[perpage,para,bottom,marginal]{footmisc}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage[cmtip,all]{xy}
+\newdateformat{dmny}{\monthname[\THEMONTH] \THEYEAR}
+\newdateformat{dyo}{\THEYEAR}
+\setlength{\headheight}{30pt}
+\pagestyle{fancy}
+
+\author{Nicolas Hafner}
+\lhead{Nicolas Hafner}
+\title{Analysis II}
+\chead{Analysis II}
+\rhead{Zürich, \dmny\today}
+\cfoot{\thepage\ / \pageref{LastPage}}
+\lfoot{\copyright \dyo\today TymoonNET/NexT}
+\date{\d_mny\today}
+
+\newcommand{\longsquiggly}{\xymatrix{{}\ar@{~>}[r]&{}}}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\renewcommand{\arg}{\operatorname{arg}}
+\renewcommand{\d}{\partial}
+\newcommand{\arsinh}{\operatorname{arsinh}}
+\newcommand{\arcosh}{\operatorname{arcosh}}
+\newcommand{\artanh}{\operatorname{artanh}}
+\newcommand{\setC}{\mathbb{C}}
+\newcommand{\setR}{\mathbb{R}}
+\newcommand{\setZ}{\mathbb{Z}}
+\newcommand{\setN}{\mathbb{Z}^{\geq0}}
+\newcommand{\Graph}{\operatorname{Graph}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\diam}{\operatorname{diam}}
+\newcommand{\rot}{\operatorname{rot}}
+
+\newcount\colveccount
+\newcommand*\colvec[1]{
+  \global\colveccount#1
+  \begin{pmatrix}
+    \colvecnext
+  }
+  \def\colvecnext#1{
+    #1
+    \global\advance\colveccount-1
+    \ifnum\colveccount>0
+    \\
+    \expandafter\colvecnext
+    \else
+  \end{pmatrix}
+  \fi
+}
+
+\newcommand{\twovec}[2]{\mathop{\left(\substack{#1 \\ #2}\right)}}
+\newcommand{\threevec}[3]{\mathop{\left(\substack{#1 \\ #2 \\ #3}\right)}}
+
+\begin{document}	
+\begin{center}{\bfseries\Huge Analysis II - 2014.05.15}\end{center}
+\textit{Erinnerung}: $\gamma:[a,b]\to C\subset\setR^n$\quad $C^1$-parametrisierter Weg von $P:=\gamma(a)$ nach $Q:=\gamma(b)$ \\
+$\Rightarrow \int_\gamma K\cdot dx :=\int_a^b(K\circ\gamma)(t)\cdot\gamma'(t)\;dt$ \\
+\\
+\textit{Satz}: $\int_\gamma\nabla f\cdot dx=f(Q)-f(P)$ \\
+\\
+\textit{Spezialfall}: $\gamma(t):=t$ für $C:=[a,b]\subset\setR$ \\
+\textit{Hauptsatz}: $\int_a^bf'(x) \;dx=f(b)-f(a)$ \\
+\textit{Beweis}: $\int_\gamma\nabla f\cdot dx\overset{def}{=}\int_a^b\underbrace{(\nabla f\circ\gamma)(t)\cdot\gamma'(t)}_{\mathclap{\nabla(f\circ\gamma)}} \;dt = \int_a^b(f\circ\gamma)'(t) \;dt = f(Q)-f(P)$ \\
+\\
+\textit{Variante}: \textit{Definition}: \begin{enumerate}[label=\alph*)]
+\item Eine ``formale Summe'' von orientierten Wegen $\gamma_1+..+\gamma_r$ heisst eine Kette. Ein Integral über $\gamma$ ist definiert durch $\int_{\gamma_1+..+\gamma_r}:=\sum\limits_{i=1}^r\int_{\gamma_i}$.
+\item Für jeden Weg $\gamma$ bezeichnet $-\gamma$ denselben Weg in umgekehrter Richtung, \\
+  z.B: $ [-b,-a]\to C,t\mapsto \gamma(-t)$.
+\end{enumerate}
+\textit{Eigenschaften}: \begin{enumerate}[label=\alph*)]
+\item Entsteht $\gamma_1+..+\gamma_r$ durch Zerlegen eines Wegs $\gamma$, dann ist $\int_\gamma=\sum\limits_{i=1}^r\int_{\gamma_i}$
+\item $\int_{-\gamma}K\cdot dx=-\int_\gamma K\cdot dx$
+\end{enumerate}
+\textit{Satz}: Für jedes stetige Vektorfeld $K$ auf $U\subset\setR^n$ offen sind äquivalent: \begin{enumerate}[label=\alph*)]
+\item $K$ besitzt ein Potential
+\item Das Integral von $K$ über jeden Weg in $U$ hängt nur vom Anfangs- und Endpunkt ab.
+\item Das Integral von $K$ über jeden geschlossenen Weg ist Null.
+\end{enumerate}
+\textit{Definition}: Wegen (c) heisst ein solches $K$ \emph{konservativ}. ``Erhaltungssatz'' \\
+\\
+\textit{Beweis}: \begin{itemize}
+\item (b)$\Rightarrow$(c): Sei $\gamma$ geschlossener Weg von $P$ nach $P$. Setze $\delta:[0,1]\to C, \;t\mapsto P$ \\
+  (b)$\Rightarrow \int_\gamma K\cdot dx=\int_\delta K\cdot dx=\int_0^1(K\circ\delta)(t)\cdot\delta'(t) \;dt=0 \Rightarrow$(c)
+\item (c)$\Rightarrow$(b): Seien $\gamma,\delta$ zwei Wege von $P$ nach $Q$. $\Rightarrow -\delta+\gamma$ ist eine Zerlegung eines geschlossenen Wegs. $\Rightarrow \int_\gamma-\int_\delta\overset{def}{=}\int_{-\delta+\gamma}=\int_\epsilon\overset{\text{(c)}}{=}0 \Rightarrow \int_\gamma=\int_\delta \Rightarrow$ (b)
+\item (a)$\Rightarrow$(b): Integralsatz: Ist $f$ ein Potential von $K$, dann ...
+\item (b)$\Rightarrow$(a): Fixiere $P_0\in U$. Setze $f(P):=\int_\gamma K\cdot dx$ für einen beliebigen Weg $\gamma$ von $P_0$ nach $P$. Wohldefiniert, wenn $U$ wegzusammenhängend ist. \textit{Behauptung}: $\frac{\d f}{\d x_i}=K_i$. Daraus folgt $\nabla f=K$ und $f$ diff'bar da $K$ stetig. \\
+  Sei $e_i=\left(\substack{0 \\ \vdots \\ 1 \\ \vdots \\ 0}\right)$ (1 an stelle $i$). Sei $\delta:[0,1]\to U, \;t\mapsto P+the_i $ \\
+  $\Rightarrow f(P+he_i)-f(P)\overset{def}{=}\int_{\delta+\gamma}K\cdot dx-\int_\gamma K\cdot dx=\int_\delta K\cdot dx = \int_0^1\underbrace{K(P+the_i)}_{\mathclap{=K(P)+o(h)}}\cdot he_i \;dt$ \\
+  $=K(P)\cdot he_i+o(h) = K_i(P)h+o(h)$
+\end{itemize}
+\textit{Beispiel}: $K\threevec{x_1}{x_2}{x_3}=\threevec{-x_2}{x_1}{0}$. Feldlinien: $\gamma:[0,2\pi]\to\setR^3, \;t\mapsto\threevec{r\cos t}{r\sin t}{z}$ \\
+$\int_\gamma K\cdot dx=\int_0^{2\pi}\threevec{-r\sin t}{r\cos t}{0}\cdot\threevec{-r\sin t}{r\cos t}{0} \;dt = \int_0^{2\pi}r^2 \;dt=2\pi r^2 \Rightarrow $ Kein Potential \\
+\\
+\textit{Beispiel}: $K\threevec{x_1}{x_2}{x_3}=\frac{1}{x_1^2+x_2^2}\threevec{-x_2}{x_1}{0}$ auf $\setR^3{\setminus\threevec{0}{0}{*}}$\\
+$\int_\gamma K\cdot dx=\int_0^{2\pi}\frac{1}{r^2}\threevec{-r\sin t}{r\cos t}{0}\threevec{-r\sin t}{r\cos t}{0} \;dt = \int_0^{2\pi}1 \;dt=2\pi \Rightarrow$ Kein Potential global, aber lokal.\\
+Erinnerung: Lokal ist $\arg(x_1+ix_2)$ ein Potential. \\
+\\
+\textit{Allgemein}: Ist $\int_\gamma K\cdot dx$ in diesem Fall für jeden geschlossenen Weg in $\setR^3\setminus\setR\threevec{0}{0}{1}$ gleich $2\pi k$, wobei $k\in\setZ$ die \emph{Windungszahl} von $\gamma$ um $\setR\threevec{0}{0}{1}$ ist.
+
+\section*{Integralsatz von Green}
+Sei $K=(K_1,K_2)$ ein $C^1$-Vektorfeld auf $U\subset\setR^2$ offen. \\
+\\
+\textit{Definition}: $\rot K:=\frac{\d K_2}{\d x}-\frac{\d K_1}{\d y}$ heisst die \emph{Rotation von $K$}. (Im Englischen: $\operatorname{curl}K$) \\
+\\
+\textit{Integralsatz}: Sei $X\subset\setR^2$ kompakt und $K$ wie oben. Dann gilt:
+$$\int_X\rot K \;d\vol_2 = \int_{\d X}K\cdot dx$$
+\textit{Definition}: $\d X$ wird so orientiert, dass in Blickrichtung gesehen die nahegelegenen Punkte von $X$ auf der linken Seite liegen.
+\end{document}
