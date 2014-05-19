@@ -1,0 +1,125 @@
+\documentclass[12pt,a4paper,titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[top=3cm, bottom=3cm, left=2cm, right=2cm]{geometry}
+\usepackage{textcomp}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{fix-cm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{mdwlist}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{datetime}
+\usepackage[perpage,para,bottom,marginal]{footmisc}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage[cmtip,all]{xy}
+\newdateformat{dmny}{\monthname[\THEMONTH] \THEYEAR}
+\newdateformat{dyo}{\THEYEAR}
+\setlength{\headheight}{30pt}
+\pagestyle{fancy}
+
+\author{Nicolas Hafner}
+\lhead{Nicolas Hafner}
+\title{Analysis II}
+\chead{Analysis II}
+\rhead{Zürich, \dmny\today}
+\cfoot{\thepage\ / \pageref{LastPage}}
+\lfoot{\copyright \dyo\today TymoonNET/NexT}
+\date{\d_mny\today}
+
+\newcommand{\longsquiggly}{\xymatrix{{}\ar@{~>}[r]&{}}}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\renewcommand{\arg}{\operatorname{arg}}
+\renewcommand{\d}{\partial}
+\newcommand{\arsinh}{\operatorname{arsinh}}
+\newcommand{\arcosh}{\operatorname{arcosh}}
+\newcommand{\artanh}{\operatorname{artanh}}
+\newcommand{\setC}{\mathbb{C}}
+\newcommand{\setR}{\mathbb{R}}
+\newcommand{\setZ}{\mathbb{Z}}
+\newcommand{\setN}{\mathbb{Z}^{\geq0}}
+\newcommand{\Graph}{\operatorname{Graph}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\diam}{\operatorname{diam}}
+\newcommand{\rot}{\operatorname{rot}}
+
+\newcount\colveccount
+\newcommand*\colvec[1]{
+  \global\colveccount#1
+  \begin{pmatrix}
+    \colvecnext
+  }
+  \def\colvecnext#1{
+    #1
+    \global\advance\colveccount-1
+    \ifnum\colveccount>0
+    \\
+    \expandafter\colvecnext
+    \else
+  \end{pmatrix}
+  \fi
+}
+
+\newcommand{\twovec}[2]{\mathop{\left(\substack{#1 \\ #2}\right)}}
+\newcommand{\threevec}[3]{\mathop{\left(\substack{#1 \\ #2 \\ #3}\right)}}
+
+\begin{document}	
+\begin{center}{\bfseries\Huge Analysis II - 2014.05.19}\end{center}
+\section*{Satz von Green}
+Sei $X\subset\setR^2$ kompakt mit stückweise $C^1$-Rand. Sei $K$ ein $C^1$-Vektorfeld auf einer offenen Teilmenge $U\subset\setR^2$ mit $X\subset U$. Dann gilt: $\int_X\rot K\cdot d\vol_2=\int_{\d X}K\cdot d\twovec{x}{y}$. \\
+$K=(K_1,K_2)\Rightarrow \rot K=\frac{\d K_2}{\d x}-\frac{\d K_1}{\d y}$
+
+\begin{proof}[Beweisskizze]: Reduktion durch Grenzübergang und Zerschneiden auf den Fall, dass $X$ sowohl $x$-einfach als auch $y$-einfach ist. $x$-einfach bedeutet: $X=\left\{\twovec{x}{y}\middle|\substack{a\leq x\leq b \\ \varphi(x)\leq y\leq \psi(\alpha)}\right\}$ für stückweise $C^1$- Funktionen $\varphi\leq\psi:[a,b]\to\setR$. \\
+  \\
+  Linke Seite: $\int_X\frac{\d K_1}{\d y} \;d\vol_2\overset{\text{Fubini}}{=}\int_a^b(\int_{\varphi(x)}^{\psi(x)}\frac{\d K_1}{\d y}) \;dx = \int_a^b(\left. K_1\right|_{y=\varphi(x)}^{y=\psi(x)} \;dx$ \\
+  $= \int_a^bK_1\twovec{x}{\psi(x)} \;dx-\int_a^bK_1\twovec{x}{\varphi(x)} \;dx$ \\
+  \\
+  Rechte Seite: $\int_{\d K}=\int_{\gamma_1}+\int_{\gamma_2}+\int_{\gamma_3}+\int_{\gamma_4}$ \quad $\int_{\gamma_2}(K_1,0)\cdot d\twovec{x}{y}\overset{\text{def}}{=}\int_{\varphi(b)}^{\psi(b)}(K_1,0)\twovec{0}{1} \;dt=0$ \\
+  $\gamma_2:[\varphi(b),\psi(b)]\to\setR^2,\;t\mapsto\twovec{b}{t} \quad \gamma_2'=\twovec{0}{1}$ \\
+  $\gamma_1:[a,b]\to\setR^2,\;t\mapsto\twovec{t}{\varphi(t)} \quad \gamma_1'(t)=\twovec{1}{\varphi'(t)}$ \\
+  Genauso: $\int_{\gamma_4}=0 \quad \int_{\gamma_1}(K_1,0)\cdot d\twovec{x}{y}=\int_a^b(K_1,0)\cdot\twovec{1}{\varphi'(t)} \;dt = \int_a^bK_1\twovec{t}{\varphi(t)} \;dt$ \\
+  Einsetzen in linke Seite: $=-\int_{\gamma_3}(K_1,0)d\twovec{x}{y}-\int_{\gamma_1}(K_1,0)d\twovec{x}{y} = -\int_{\d X}(K_1,0)d\twovec{x}{y}$ \\
+  \\
+  \textit{Also}: $\int_X\frac{\d K_1}{\d y}\d\vol_2\twovec{x}{y}=-\int_{\d X}(K_1,0)\cdot d\twovec{x}{y}$ analog: $\int_X\frac{\d K_2}{\d x}d\vol\twovec{x}{y}=+\int_{\d X}(0,K_2)\cdot d\twovec{x}{y}$ \\
+  $\Rightarrow \int_X(\frac{\d K_2}{\d x}-\frac{\d K_1}{\d y})d \vol_2\twovec{x}{y}=\int_{\d X}(K_1,K_2)d\twovec{x}{y}$
+\end{proof}
+
+\noindent\textit{Bemerkung}: $\int_\gamma K\cdot d\twovec{x}{y}$ misst die \emph{Zirkulation} von $K$ längs $\gamma$. Die entsprechende Dichte ist die Rotation $\rot K$. \\
+\\
+\textit{Definition}: Ist $\rot K=0$, so heisst $K$ \emph{rotationsfrei}. Dann ist $\int_{\d X}K\cdot d\twovec{x}{y}=0$ \\
+\\
+\textit{Vorsicht}: Für einen geschlossenen Weg im Definitionsbereich $X$ von $K$ gilt im Alggemeinen $\int_\gamma K \;d\twovec{x}{y}=0$ nur, wenn $\gamma=\d X$ für $X\subset U$. \\
+\\
+\textit{Spezialfall}: Flächeninhalt: $K\twovec{x}{y}=(0,x)$ oder $(-y,0)$ oder $\frac{(-y,x)}{2}$ \\
+$\rot K=\frac{\d K_2}{\d x}-\frac{\d K_1}{\d y} \longsquiggly \rot K=1$ \\
+\\
+\textit{Beispiel}: Flächeninhalt unter einem Bogen einer Zykloiden \\
+$\gamma:[0,2\pi]\to\setR^2,\;t\mapsto\twovec{r(t-\sin t)}{r(1-\cos t)} \quad \delta:[0,2\pi r]\to\setR^2,\;t\mapsto\twovec{t}{0} \quad \d X=-\gamma+\delta$ \\
+$\Rightarrow \vol_2(X)\overset{\text{def.}}{=}\int_X1\cdot d\vol_2\overset{\text{Green}}{=}\int_{-\gamma+\delta}(-y,0)\cdot d\twovec{x}{y} = -\int_{-\gamma+\delta}y \;dx \quad \int_\delta y \;dx=\int_0^{2\pi r}0 \;dt=0$ \\
+$\int_\gamma y \;dx =\int_0^{2\pi}r(1-\cos t)\cdot\frac{d}{dt}(r(t-\sin t)) \;dt = \int_0^{2\pi}r^2(1-\cos t)^2 \;dt=3\pi r^2$ \\
+$\Rightarrow \vol_2(X)=-\int_{-\gamma+\delta}y \;dx=\int_\gamma y \;dx-\int_\delta y \;dx=3\pi r^2$ \\
+\newpage\noindent
+\textit{Polarplanimeter}: Benutze Polarkoordinaten $\twovec{x}{y}=\twovec{r\cos\varphi}{r\sin\varphi}$ \\
+$\Rightarrow \vol_2(X)=\int_{\d X}\frac{x\;dy-y\;dx}{2} = .. = \int_{\d X}\frac{r^2}{2} \;d\varphi$ \\
+$m$= Länge Leitarm, $l$= Länge Führarm, $r$= Abstand Stift, $\varphi$ Winkel Leitarm, $\psi$ Winkel Arme \\
+Kosinussatz: $\Rightarrow r^2=m^2-l^2+2rl\cos\varphi \Rightarrow \vol_2(X)=\int_{\d X}\frac{m^2-l^2+2rl\cos\varphi}{2}\;d\varphi = \int_{\d X}rl\cos\varphi \;d\varphi$  \\
+Position des Stifts $re^{i\varphi}$ \quad Position des Zählrads $re^{i\varphi}=e^{i(\varphi+\psi)}\underbrace{\omega}_{\mathclap{\in\setC \text{const}.}}$ \quad Rollrichtung $=re^{i(\varphi+\psi)}$ \\
+Anteil der Bewegung in Rollrichtung $=\Re(\frac{\d\delta}{ie^{i(\varphi+\psi)}})$ \\
+\\
+Continued next time.
+
+\end{document}
