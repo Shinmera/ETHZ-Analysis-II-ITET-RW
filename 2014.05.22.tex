@@ -1,0 +1,133 @@
+\documentclass[12pt,a4paper,titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[top=3cm, bottom=3cm, left=2cm, right=2cm]{geometry}
+\usepackage{textcomp}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{fix-cm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{mdwlist}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{datetime}
+\usepackage[perpage,para,bottom,marginal]{footmisc}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage[cmtip,all]{xy}
+\newdateformat{dmny}{\monthname[\THEMONTH] \THEYEAR}
+\newdateformat{dyo}{\THEYEAR}
+\setlength{\headheight}{30pt}
+\pagestyle{fancy}
+
+\author{Nicolas Hafner}
+\lhead{Nicolas Hafner}
+\title{Analysis II}
+\chead{Analysis II}
+\rhead{Zürich, \dmny\today}
+\cfoot{\thepage\ / \pageref{LastPage}}
+\lfoot{\copyright \dyo\today TymoonNET/NexT}
+\date{\d_mny\today}
+
+\newcommand{\longsquiggly}{\xymatrix{{}\ar@{~>}[r]&{}}}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\renewcommand{\arg}{\operatorname{arg}}
+\renewcommand{\d}{\partial}
+\newcommand{\arsinh}{\operatorname{arsinh}}
+\newcommand{\arcosh}{\operatorname{arcosh}}
+\newcommand{\artanh}{\operatorname{artanh}}
+\newcommand{\setC}{\mathbb{C}}
+\newcommand{\setR}{\mathbb{R}}
+\newcommand{\setZ}{\mathbb{Z}}
+\newcommand{\setN}{\mathbb{Z}^{\geq0}}
+\newcommand{\Graph}{\operatorname{Graph}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\diam}{\operatorname{diam}}
+\newcommand{\rot}{\operatorname{rot}}
+\newcommand{\divv}{\operatorname{div}}
+
+\newcount\colveccount
+\newcommand*\colvec[1]{
+  \global\colveccount#1
+  \begin{pmatrix}
+    \colvecnext
+}
+\def\colvecnext#1{
+    #1
+    \global\advance\colveccount-1
+  \ifnum\colveccount>0
+    \\
+    \expandafter\colvecnext
+  \else
+    \end{pmatrix}
+  \fi
+}
+
+\newcommand{\twovec}[2]{\mathop{\left(\substack{#1 \\ #2}\right)}}
+\newcommand{\threevec}[3]{\mathop{\left(\substack{#1 \\ #2 \\ #3}\right)}}
+
+\begin{document}	
+\begin{center}{\bfseries\Huge Analysis II - 2014.05.22}\end{center}
+\section*{Integralsatz von Gauss in $\setR^2$}
+\textit{Green}: $\int_X\rot \widetilde{K} \;d\vol_2=\int_{\d X}\widetilde{K}\cdot d\twovec{x}{y}$ \\
+\\
+Seien $X$,$K$ wie vorher, $K=(K_1,K_2)$. Setze $\widetilde{K}:=(-K_2,K_1)$. Sei $n$ ein nach aussen gerichteter Normaleneinheitsvektor. Das heisst: $\underbrace{\int_{\d X}K\cdot n\;d\vol_2}_{\mathclap{\int K(\gamma(t))\cdot n(\gamma(t))\cdot|\gamma'(t)| \;dt = \int\widetilde{K}\;d\vol_1}} = \int(K_1,K_2)\cdot\twovec{dy}{-dx}$ \\
+$\rot\widetilde{K}=\frac{\d\widetilde{K_2}}{\d x}-\frac{\d\widetilde{K_1}}{\d y}=\frac{\d K_1}{\d x}+\frac{\d K_2}{\d y} = \divv K$ \\
+I have no idea what's going on at this point, but apparently we did a thing. \\
+\\
+\textit{Definition}: Die \emph{Divergenz} eines Vektorfelds $K$ auf $U\subset\setR^n$ ist $\divv K:=\frac{\d K_1}{\d x_1}+..+\frac{\d K_n}{\d x_n}$ \\
+\\
+\textit{Integralsatz von Gauss}:
+$$\int_X\divv K \;d\vol_2=\int_{\d X}K\cdot n \;d\vol_1$$ \\
+\textit{Bedeutung}: Divergenz: örtliche Rate der Dichtezunahme. \\
+$\int_\gamma K\cdot n \;d\vol_1$= Gesamtfluss von $K$ durch $\gamma$ in Richtung $n$. \\
+\\
+\textit{Beispiel}: Sei $K:=\left\{\twovec{x}{y}\in\setR^2\middle| x^2+y^2\leq r^2\right\}$, $K\twovec{x}{y}:=\twovec{ax+by}{ex+dy}$. \\
+$\Rightarrow \divv K=\frac{\d}{\d x}(ax+by)+\frac{\d}{\d y}(cx+dy)=a+d$ \\
+$\Rightarrow \int_X\divv K \;d\vol_2=(a+d)\vol_2(X)=(a+d)\pi r^2$ \\
+$\Rightarrow \int_{\d X}K\cdot n \;d\vol_1=\left|\substack{\gamma:[0,2\pi]\to\setR^2,\;t\mapsto\twovec{r\cos t}{r\sin t} \\ n(\gamma(t))=\twovec{\cos t}{\sin t} \\ |\gamma'(t)|=|\twovec{-r\sin t}{r\cos t}|=r}\right| = \int_0^{2\pi}\twovec{ar\cos t+br\sin t}{cr\cos t+dr\sin t}\cdot\twovec{\cos t}{\sin t}r \;dt$\\
+$= \int_0^{2\pi}r^2(a\cos^2t+(b+c)\cos t\sin t+d\sin^2t) \;dt = \int_0^{2\pi}r^2(a\frac{1+\cos2t}{2}+(b+c)\frac{\sin2t}{2}+d\frac{1-\cos2t}{2}) \;dt$ \\
+$=\int_0^{2\pi}r^2\frac{a+d}{2} \;dt = (a+d)\pi r^2$
+
+\section*{Vektorielles Flächenintegral}
+Sei $F\subset\setR^3$ eine stückweise $C^1$-parametrisierte Fläche, $\varphi:B\to F$ bijektiv ausserhalb Teilmengen der Dimension $\leq 1$ für $B\subset\setR^2$ kompakt. $\varphi\twovec{u}{v}\mapsto\varphi\twovec{u}{v}$. Skalares Flächenelement: $|\varphi_u\times\varphi_v|$. Vektorielles Flächenelement: $\varphi_u\times\varphi_v = n\cdot|\varphi_u\times\varphi_v|$ wobei $n$ ein Normaleneinheitsvektor auf $F$ ist. \\
+\\
+\textit{Erinnerung}: Skalares Flächenintegral: $\int_Ff\;d\vol_2:=\int_B(F\circ\varphi)\cdot|\varphi_u\times\varphi_v| \;d\vol_2\twovec{u}{v}$ \\
+\\
+\textit{Definition}: Vektorielles Flächenintegral: $\int_FK\cdot n\;d\vol_2:=\int_B(K\circ\varphi)\cdot(\varphi_u\times\varphi_v) \;d\vol_2\twovec{u}{v}$ \\
+\newpage\noindent
+\textit{Definition}: Eine Umparametrisierung $\psi:\widetilde{B}\to B$ heisst \emph{orientierungserhaltend}, wenn der zu $\varphi\circ\psi$ assoziierte Normalenvektor $n$ derselbe ist wie für $\varphi$. Ist er überall minus der zu $\varphi$, dann heist $\psi$ \emph{orientierungsvertauschend}. \\
+\\
+\textit{Definition}: Eine orientierte Fläche ist eine Fläche mit einem solchen System von $n$. \\
+\\
+\textit{Fakt}: $\int_FK\cdot n \;d\vol_2$ ist invariant unter orientierungserhaltender Umparametrisierung, bzw. wechselt das Vorzeichen bei orientierungsvertauschender. \\
+\\
+\textit{Bedeutung} von $\int_XK\cdot n\;d\vol_2$: Fluss von $K$ durch $F$ in Richtung von $n$.
+
+\section*{Integralsatz von Gauss in $\setR^3$}
+Sei $X\subset\setR^3$ kompakt mit stückweise $C^1$-parametrisierter Randfläche $\d X$ mit überall von $X$ gegebenen, nach aussen gerichteten Orientierung $n$. Sei $K$ ein $C^1$-Vektorfeld auf $U\subset\setR^3$ offen mit $X\subset U$. \\
+\\
+\textit{Satz}: $$\int_X\divv K \;dvol_3=\int_{\d X}K\cdot n \;d\vol_2$$
+Dies heisst \emph{Satz von Gauss}, oder auch \emph{Divergenzsatz}. \\
+\\
+\textit{Beispiel}: $X:=\left\{\threevec{x}{y}{z}\in\setR^3\middle|\sqrt{x^2+y^2}\leq z\leq 1\right\}$ beschreibt einen Kegel mit Spitze auf Nullpunkt und Boden mit Radius $1$ an Position $z$. Schreibe $\d X=F_1\cup F_2$ mit \\
+$F_1=\operatorname{Bild}(\varphi:\underbrace{\left\{\twovec{u}{v}\in\setR^2\middle|u^2+v^2\leq 1\right\}}\to\setR^3,\;\twovec{u}{v}\mapsto\threevec{u}{v}{1})$ \\
+$F_2=\operatorname{Bild}(\psi:\overbrace{\left\{\twovec{u}{v}\in\setR^2\middle|u^2+v^2\leq 1\right\}}^B\to\setR^3,\;\twovec{u}{v}\mapsto\threevec{u}{v}{\sqrt{u^2+v^2}})$ \\
+$\varphi_u\times\varphi_v=\threevec{1}{0}{0}\times\threevec{0}{1}{0}=\threevec{0}{0}{1}$ zeigt nach aussen. \\
+$\psi_u\times\psi_v=\threevec{1}{0}{\frac{u}{\sqrt{u^2+v^2}}}\times\threevec{0}{1}{\frac{v}{\sqrt{u^2+v^2}}}=\threevec{-u/\sqrt{u^2+v^2}}{-v/\sqrt{u^2+v^2}}{1}$ zeigt nach innen! \\
+Also gilt mit den von $\varphi$ und $\psi$ induzierten Orientierungen $\d X=F_1+(-F_2)$. Sei $K\threevec{x}{y}{z}:=(2x-yz, xz+3y, xy-z)$ \\
+And then a whole clusterfuck happened and I won't even try to reconstruct it here.
+
+\end{document}
